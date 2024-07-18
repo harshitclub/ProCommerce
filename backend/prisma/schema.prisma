@@ -1,0 +1,294 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  superAdmin
+  vendor
+  user
+}
+
+enum Status {
+  active
+  inactive
+  block
+}
+
+enum ProductStatus {
+  published
+  draft
+}
+
+enum Rating {
+  one
+  two
+  three
+  four
+  five
+}
+
+enum PaymentStatus {
+  pending
+  paid
+  failed
+  cancelled
+}
+
+enum FulfillmentStatus {
+  unfulfilled
+  partiallyFulfilled
+  fulfilled
+  cancelled
+}
+
+enum AddressType {
+  businessAddress
+  homeAddress
+}
+
+model SuperAdmin {
+  id                  String   @id @default(uuid())
+  firstName           String
+  lastName            String
+  email               String   @unique
+  phone               String   @unique
+  password            String
+  avatar              String?
+  role                Role     @default(superAdmin)
+  status              Status   @default(active)
+  isVerified          Boolean  @default(false)
+  verificationToken   String?
+  forgetPasswordToken String?
+  accessToken         String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relationship to Vendor and user
+  vendors Vendor[]
+}
+
+model Vendor {
+  id                  String          @id @default(uuid())
+  firstName           String
+  lastName            String
+  companyName         String
+  email               String          @unique
+  contactEmail        String?
+  phone               String          @unique
+  panNumber           String?
+  aadharNumber        String?
+  password            String
+  avatar              String?
+  role                Role            @default(vendor)
+  status              Status          @default(active)
+  website             String?
+  isVerified          Boolean         @default(false)
+  verificationToken   String?
+  forgetPasswordToken String?
+  accessToken         String?
+  lastLogin           DateTime?
+  userAgent           String?
+  notes               String?
+  description         String?
+  products            Product[]
+  brandComplain       BrandComplain[]
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  // Relationship to SuperAdmin 
+  superAdmin   SuperAdmin? @relation(fields: [superAdminId], references: [id])
+  superAdminId String?     @unique
+}
+
+model User {
+  id                  String            @id @default(uuid())
+  firstName           String
+  lastName            String
+  email               String            @unique
+  phone               String            @unique
+  password            String
+  avatar              String?
+  role                Role              @default(user)
+  status              Status            @default(active)
+  isVerified          Boolean           @default(false)
+  verificationToken   String?
+  forgetPasswordToken String?
+  accessToken         String?
+  lastLogin           DateTime?
+  userAgent           String?
+  notes               String?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  // Relationship to SuperAdmin 
+  reviews             Review[]
+  cart                Cart[]
+  wishList            Wishlist[]
+  productComplain     ProductComplain[]
+  Address             Address[]
+}
+
+model Product {
+  id                   String            @id @default(uuid())
+  title                String
+  description          String
+  summary              String?
+  image                String?
+  sku                  String            @unique
+  stock                Int
+  oldPrice             Float
+  newPrice             Float
+  warranty             String?
+  slug                 String            @unique
+  status               ProductStatus     @default(draft)
+  isVerified           Boolean           @default(true)
+  metaDescription      String?
+  keywords             String?
+  minimumOrderQuantity Int               @default(1)
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  // Relationships
+  vendor               Vendor?           @relation(fields: [vendorId], references: [id])
+  vendorId             String?
+  reviews              Review[]
+  cartItems            CartItem[]
+  wishList             Wishlist[]
+  brand                Brand[]
+  productComplain      ProductComplain[]
+}
+
+model Brand {
+  id               String   @id @default(uuid())
+  brandName        String
+  logo             String?
+  country          String
+  missionStatement String?
+  slogan           String
+  description      String
+  isVerified       Boolean  @default(false)
+  metaDescription  String?
+  keywords         String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // relationships
+  product       Product?        @relation(fields: [productId], references: [id])
+  productId     String?
+  brandComplain BrandComplain[]
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  rating    Rating
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id                String   @id @default(uuid())
+  user              User     @relation(fields: [userId], references: [id])
+  userId            String
+  totalProductCount Int
+  totalPrice        Float
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relationships
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id       String @id @default(uuid())
+  quantity Int
+  price    Float
+
+  // Relationships
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  cartId    String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DiscoutCoupon {
+  id                 String   @id @default(uuid())
+  couponCode         String
+  description        String?
+  discountPercentage String?
+  status             Status
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String
+  message   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProductComplain {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  title     String
+  message   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // user will send this complain about product to vendor
+}
+
+model BrandComplain {
+  id        String   @id @default(uuid())
+  vendor    Vendor   @relation(fields: [vendorId], references: [id])
+  vendorId  String
+  brand     Brand    @relation(fields: [brandId], references: [id])
+  brandId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // vendor will send this complain about product to brand
+}
+
+model Address {
+  id           String      @id @default(uuid())
+  user         User?       @relation(fields: [userId], references: [id])
+  userId       String?
+  addressType  AddressType @default(homeAddress)
+  fullName     String
+  companyName  String?
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String
+  postalCode   String
+  country      String
+  note         String?
+  isDefault    Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
