@@ -19,7 +19,7 @@ app.use(helmet()); // Protect against common vulnerabilities
 app.use(
   rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit requests to 100 per window
+    max: 50, // Limit requests to 100 per window
   })
 ); // Limit excessive requests
 
