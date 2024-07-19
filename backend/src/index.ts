@@ -6,6 +6,9 @@ import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import morgan from "morgan";
 import superAdminRouter from "./routes/superAdminRoutes";
+import vendorRouter from "./routes/vendorRoutes";
+import userRouter from "./routes/userRoutes";
+import brandRouter from "./routes/brandRoutes";
 
 dotenv.config();
 const app = express();
@@ -46,5 +49,8 @@ function handleListen(error?: Error): void {
 }
 
 app.use("/api/v1/super-admin", superAdminRouter);
+app.use("/api/v1/vendor", vendorRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/brand", brandRouter);
 
 app.listen(PORT, handleListen);

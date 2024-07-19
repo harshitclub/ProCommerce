@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import {
   sAdminLoginValidator,
@@ -76,7 +75,7 @@ export const superAdminLogin = async (req: Request, res: Response) => {
     });
 
     if (!existingSAdmin) {
-      return res.status(400).json({ message: "Super Admin Not Found" });
+      return res.status(404).json({ message: "Super Admin Not Found" });
     }
 
     const passwordMatches = await bcrypt.compare(
@@ -121,11 +120,44 @@ export const superAdminLogin = async (req: Request, res: Response) => {
   }
 };
 
-export const superAdminProfile = (req: Request, res: Response) => {
+export const superAdminProfile = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
 
-    console.log(user);
+    const adminProfile = await prisma.superAdmin.findUnique({
+      where: { email: user.userEmail },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        role: true,
+        status: true,
+        isVerified: true,
+        avatar: true,
+      },
+    });
+    if (!adminProfile) {
+      return res.status(404).json({
+        message: "Super Admin Not Found",
+      });
+    }
+
+    const sanitizedUser = {
+      id: adminProfile.id,
+      firstName: adminProfile.firstName,
+      lastName: adminProfile.lastName,
+      email: adminProfile.email,
+      phone: adminProfile.phone,
+      role: adminProfile.role,
+      isVerified: adminProfile.isVerified,
+      status: adminProfile.status,
+    };
+
+    return res
+      .status(200)
+      .json({ message: "User Profile Fetched", user: sanitizedUser });
   } catch (error) {
     console.error(error); // Log the error for debugging
     return res

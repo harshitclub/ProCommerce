@@ -143,6 +143,7 @@ model Product {
   oldPrice             Float
   newPrice             Float
   warranty             String?
+  warrantyDescription  String?
   slug                 String            @unique
   status               ProductStatus     @default(draft)
   isVerified           Boolean           @default(true)
