@@ -4,10 +4,11 @@ import {
   superAdminProfile,
   superAdminRegister,
 } from "../controllers/superAdminController";
+import { isAdmin, isLogin } from "../middlewares/auth";
 const superAdminRouter = express.Router();
 
 superAdminRouter.post("/register", superAdminRegister);
 superAdminRouter.post("/login", superAdminLogin);
-superAdminRouter.get("/profile", superAdminProfile);
+superAdminRouter.get("/profile", isLogin, isAdmin, superAdminProfile);
 
 export default superAdminRouter;

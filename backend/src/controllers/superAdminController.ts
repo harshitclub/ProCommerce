@@ -6,6 +6,7 @@ import {
   sAdminLoginValidator,
   sAdminRegisterValidator,
 } from "../validator/superAdminValidator";
+import { generateAccessToken } from "../utils/tokens/generateTokens";
 const prisma = new PrismaClient();
 
 const saltRound = 10;
@@ -68,6 +69,7 @@ export const superAdminLogin = async (req: Request, res: Response) => {
         email: true,
         phone: true,
         role: true,
+        status: true,
         isVerified: true,
         password: true,
       }, // Include password for verification
@@ -85,6 +87,20 @@ export const superAdminLogin = async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Invalid Login Credentials" });
     }
 
+    const accessToken = await generateAccessToken({
+      userId: existingSAdmin.id,
+      userEmail: existingSAdmin.email,
+      isVerified: existingSAdmin.isVerified,
+      role: existingSAdmin.role,
+      status: existingSAdmin.status,
+    });
+
+    res.cookie("procommerceToken", accessToken, {
+      maxAge: 7 * 24 * 60 * 60 * 1000, // Expires in 7 days (milliseconds)
+      httpOnly: true, // Prevents client-side JavaScript access (recommended for security)
+      secure: true, // Only send over HTTPS connections (recommended for security)
+    });
+
     const sanitizedUser = {
       id: existingSAdmin.id,
       firstName: existingSAdmin.firstName,
@@ -93,6 +109,7 @@ export const superAdminLogin = async (req: Request, res: Response) => {
       phone: existingSAdmin.phone,
       role: existingSAdmin.role,
       isVerified: existingSAdmin.isVerified,
+      status: existingSAdmin.status,
     };
 
     return res
@@ -105,5 +122,14 @@ export const superAdminLogin = async (req: Request, res: Response) => {
 };
 
 export const superAdminProfile = (req: Request, res: Response) => {
-  return res.status(200).send({ message: "all ok" });
+  try {
+    const user = req.decodedToken;
+
+    console.log(user);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error getting super admin profile" });
+  }
 };
