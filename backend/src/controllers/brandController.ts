@@ -1,10 +1,23 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { brandRegisterValidator } from "../validator/brandValidator";
 const prisma = new PrismaClient();
 
 export const brandRegister = async (req: Request, res: Response) => {
   try {
+    const {
+      brandName,
+      email,
+      password,
+      phone,
+      country,
+      missionStatement,
+      slogan,
+      description,
+      metaDescription,
+      keywords,
+    } = await brandRegisterValidator.parseAsync(req.body);
   } catch (error) {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging

@@ -85,3 +85,39 @@ export const isAdmin = async (
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+export const isVendor = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.decodedToken) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: Missing user information" });
+    }
+    const decoded = req.decodedToken;
+    if (decoded.role !== "vendor") {
+      // Handle non-vendor case
+      return res
+        .status(403)
+        .json({ message: "Forbidden: Access denied for non-vendor users" });
+    }
+    req.decodedToken = decoded;
+    next();
+  } catch (error: any) {
+    console.error("Error verifying access token:", error);
+    if (error.name === "TokenExpiredError") {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: Access token expired" });
+    } else if (error.name === "JsonWebTokenError") {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: Invalid access token format" });
+    }
+
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
