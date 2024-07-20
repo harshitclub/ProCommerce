@@ -173,6 +173,8 @@ model Product {
   wishList             Wishlist[]
   brand                Brand[]
   productComplain      ProductComplain[]
+  category             Category[]
+  subCategory          SubCategory[]
 }
 
 model Brand {
@@ -212,6 +214,42 @@ model Review {
   comment   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id              String   @id @default(uuid())
+  title           String
+  description     String?
+  slug            String   @unique
+  metaDescription String?
+  status          Status   @default(active)
+  featured        Boolean  @default(false)
+  keywords        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // relationships
+  product       Product?      @relation(fields: [productId], references: [id])
+  productId     String?
+  subCategories SubCategory[]
+}
+
+model SubCategory {
+  id              String   @id @default(uuid())
+  title           String
+  description     String?
+  slug            String   @unique
+  metaDescription String?
+  status          Status   @default(active)
+  keywords        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // relationship
+  parentCategory   Category @relation(fields: [parentCategoryId], references: [id])
+  parentCategoryId String   @unique
+  product          Product? @relation(fields: [productId], references: [id])
+  productId        String?
 }
 
 // Reviews Comment
