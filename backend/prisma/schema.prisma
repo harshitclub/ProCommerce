@@ -11,6 +11,7 @@ enum Role {
   superAdmin
   vendor
   user
+  brand
 }
 
 enum Status {
@@ -58,7 +59,7 @@ enum Niche {
   healthcare
   pets
   games_toys
-  baby_Kids
+  baby_kids
   food_beverages
   art_crafts
 }
@@ -184,10 +185,12 @@ model Brand {
   country          String
   missionStatement String?
   slogan           String
+  role             Role     @default(brand)
   niche            Niche
   slug             String   @unique
   description      String
   isVerified       Boolean  @default(false)
+  status           Status   @default(active)
   metaDescription  String?
   keywords         String?
   createdAt        DateTime @default(now())

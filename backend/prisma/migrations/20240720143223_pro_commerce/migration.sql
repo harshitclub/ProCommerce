@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('superAdmin', 'vendor', 'user');
+CREATE TYPE "Role" AS ENUM ('superAdmin', 'vendor', 'user', 'brand');
 
 -- CreateEnum
 CREATE TYPE "Status" AS ENUM ('active', 'inactive', 'block');
@@ -18,6 +18,9 @@ CREATE TYPE "FulfillmentStatus" AS ENUM ('unfulfilled', 'partiallyFulfilled', 'f
 
 -- CreateEnum
 CREATE TYPE "AddressType" AS ENUM ('businessAddress', 'homeAddress');
+
+-- CreateEnum
+CREATE TYPE "Niche" AS ENUM ('fashion', 'electronics', 'home_garden', 'healthcare', 'pets', 'games_toys', 'baby_kids', 'food_beverages', 'art_crafts');
 
 -- CreateTable
 CREATE TABLE "SuperAdmin" (
@@ -107,6 +110,7 @@ CREATE TABLE "Product" (
     "oldPrice" DOUBLE PRECISION NOT NULL,
     "newPrice" DOUBLE PRECISION NOT NULL,
     "warranty" TEXT,
+    "warrantyDescription" TEXT,
     "slug" TEXT NOT NULL,
     "status" "ProductStatus" NOT NULL DEFAULT 'draft',
     "isVerified" BOOLEAN NOT NULL DEFAULT true,
@@ -124,12 +128,19 @@ CREATE TABLE "Product" (
 CREATE TABLE "Brand" (
     "id" TEXT NOT NULL,
     "brandName" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "phone" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "logo" TEXT,
     "country" TEXT NOT NULL,
     "missionStatement" TEXT,
     "slogan" TEXT NOT NULL,
+    "role" "Role" NOT NULL DEFAULT 'brand',
+    "niche" "Niche" NOT NULL,
+    "slug" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "isVerified" BOOLEAN NOT NULL DEFAULT false,
+    "status" "Status" NOT NULL DEFAULT 'active',
     "metaDescription" TEXT,
     "keywords" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -283,6 +294,15 @@ CREATE UNIQUE INDEX "Product_sku_key" ON "Product"("sku");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Product_slug_key" ON "Product"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Brand_email_key" ON "Brand"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Brand_phone_key" ON "Brand"("phone");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Brand_slug_key" ON "Brand"("slug");
 
 -- AddForeignKey
 ALTER TABLE "Vendor" ADD CONSTRAINT "Vendor_superAdminId_fkey" FOREIGN KEY ("superAdminId") REFERENCES "SuperAdmin"("id") ON DELETE SET NULL ON UPDATE CASCADE;
