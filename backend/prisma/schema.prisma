@@ -155,7 +155,7 @@ model Product {
   stock                Int
   oldPrice             Float
   newPrice             Float
-  warranty             String?
+  warranty             Int?
   warrantyDescription  String?
   slug                 String            @unique
   status               ProductStatus     @default(draft)
@@ -171,7 +171,8 @@ model Product {
   reviews              Review[]
   cartItems            CartItem[]
   wishList             Wishlist[]
-  brand                Brand[]
+  brand                Brand?            @relation(fields: [brandId], references: [id])
+  brandId              String?
   productComplain      ProductComplain[]
   categoryId           String?
   category             Category?         @relation(fields: [categoryId], references: [id])
@@ -201,8 +202,7 @@ model Brand {
   updatedAt        DateTime @updatedAt
 
   // relationships
-  product       Product?        @relation(fields: [productId], references: [id])
-  productId     String?
+  products      Product[]
   brandComplain BrandComplain[]
 }
 
@@ -224,6 +224,7 @@ model Category {
   description     String?
   slug            String   @unique
   metaDescription String?
+  image           String?
   status          Status   @default(active)
   featured        Boolean  @default(false)
   keywords        String?
@@ -241,6 +242,7 @@ model SubCategory {
   description     String?
   slug            String   @unique
   metaDescription String?
+  image           String?
   status          Status   @default(active)
   keywords        String?
   createdAt       DateTime @default(now())

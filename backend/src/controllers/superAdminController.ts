@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcrypt, { compare } from "bcrypt";
 import {
   sAdminLoginValidator,
   sAdminRegisterValidator,
@@ -165,3 +165,106 @@ export const superAdminProfile = async (req: Request, res: Response) => {
       .json({ message: "Error getting super admin profile" });
   }
 };
+
+export const updateSuperAdmin = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const { firstName, lastName, phone } = req.body;
+
+    const updateSuperAdmin = await prisma.superAdmin.update({
+      where: { email: user.userEmail },
+      data: {
+        firstName,
+        lastName,
+        phone,
+      },
+    });
+
+    if (!updateSuperAdmin) {
+      return res.status(400).json({
+        message: "Error While Updating Super Admin",
+        data: updateSuperAdmin,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Super Admin Updated",
+      data: updateSuperAdmin,
+    });
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error udpating super admin profile" });
+  }
+};
+
+export const changeSAdminPassword = async (req: Request, res: Response) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res
+        .status(400) // Bad Request
+        .json({
+          message: "Missing required fields: oldPassword and newPassword",
+        });
+    }
+
+    const user = req.decodedToken;
+    const superAdmin = await prisma.superAdmin.findUnique({
+      where: { email: user.userEmail },
+    });
+    if (!superAdmin) {
+      return res
+        .status(401) // Unauthorized
+        .json({ message: "Invalid credentials or unauthorized access" });
+    }
+
+    const passwordStrength = validatePassword(newPassword);
+    if (!passwordStrength.isValid) {
+      return res
+        .status(400) // Bad Request
+        .json({ message: passwordStrength.message });
+    }
+
+    const comparePassword = await bcrypt.compare(
+      oldPassword,
+      superAdmin.password
+    );
+    if (!comparePassword) {
+      return res
+        .status(401) // Unauthorized
+        .json({ message: "Incorrect old password" });
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, saltRound);
+
+    const updatedAdmin = await prisma.superAdmin.update({
+      where: { email: superAdmin.email },
+      data: { password: hashPassword },
+    });
+    return res
+      .status(200) // OK
+      .json({ message: "Super Admin password changed successfully" });
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error changing super admin password" });
+  }
+};
+
+function validatePassword(password: string) {
+  // Implement password complexity checks (length, special characters, etc.)
+  // Consider using a password validation library
+  const isValid =
+    password.length >= 8 && // Minimum length
+    /[A-Z]/.test(password) && // Uppercase letter
+    /[a-z]/.test(password) && // Lowercase letter
+    /[0-9]/.test(password); // Digit
+
+  const message = `Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, and a digit.`;
+
+  return { isValid, message };
+}

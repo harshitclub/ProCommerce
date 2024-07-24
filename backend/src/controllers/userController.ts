@@ -162,3 +162,168 @@ export const userProfile = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error getting user profile" });
   }
 };
+
+export const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        status: true,
+        isVerified: true,
+      },
+    });
+
+    if (!users) {
+      return res.status(404).json({
+        message: "Users Not Found",
+        data: users,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Users Found",
+      data: users,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting users" });
+  }
+};
+
+export const getUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: id },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        status: true,
+        isVerified: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User Not Found",
+        data: user,
+      });
+    }
+
+    return res.status(200).json({
+      message: "User Found",
+      data: user,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting user" });
+  }
+};
+
+export const blockUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const blockUser = await prisma.user.update({
+      where: { id: id },
+      data: {
+        status: "block",
+      },
+    });
+
+    if (!blockUser) {
+      return res.status(404).json({
+        message: "User not found",
+        data: blockUser,
+      });
+    }
+
+    return res.status(200).json({
+      message: "User blocked",
+      data: blockUser,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while blocking user" });
+  }
+};
+
+export const unBlockUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const unBlockUser = await prisma.user.update({
+      where: { id: id },
+      data: {
+        status: "active",
+      },
+    });
+
+    if (!unBlockUser) {
+      return res.status(404).json({
+        message: "User not found",
+        data: unBlockUser,
+      });
+    }
+
+    return res.status(200).json({
+      message: "User Unblocked",
+      data: unBlockUser,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while unblocking user" });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    await prisma.user.delete({
+      where: { id: id },
+    });
+
+    return res.status(200).json({
+      message: "User Deleted",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while deleting user" });
+  }
+};

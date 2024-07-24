@@ -23,3 +23,16 @@ export const vLoginValidator = z.object({
     .email({ message: "Invalid email address" }),
   password: z.string(),
 });
+
+export const updateVendor = z.object({
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  companyName: z.string().optional(),
+  phone: z.string().optional(),
+  contactEmail: z.string().email().optional(),
+  panNumber: z.string().optional(),
+  aadhanNumber: z.string().optional(),
+  website: z.string().url().optional(),
+  notes: z.string().optional(),
+  description: z.string().optional(),
+});

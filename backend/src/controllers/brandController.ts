@@ -199,3 +199,170 @@ export const brandProfile = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error getting brand profile" });
   }
 };
+
+export const getAllBrands = async (req: Request, res: Response) => {
+  try {
+    const brands = await prisma.brand.findMany({
+      select: {
+        id: true,
+        brandName: true,
+        email: true,
+        phone: true,
+        logo: true,
+        niche: true,
+        slug: true,
+        status: true,
+        isVerified: true,
+      },
+    });
+
+    if (!brands) {
+      return res.status(404).json({
+        message: "Brands Not found",
+        data: brands,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Brands Found",
+      data: brands,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting brands" });
+  }
+};
+
+export const getBrand = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const brand = await prisma.brand.findUnique({
+      where: { id: id },
+      select: {
+        id: true,
+        brandName: true,
+        email: true,
+        phone: true,
+        logo: true,
+        niche: true,
+        slug: true,
+        status: true,
+        isVerified: true,
+        slogan: true,
+        country: true,
+        missionStatement: true,
+        description: true,
+      },
+    });
+
+    if (!brand) {
+      return res.status(404).json("Brand Not Found");
+    }
+    return res.status(200).json({
+      message: "Brand Found",
+      data: brand,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting brand" });
+  }
+};
+
+export const blockBrand = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const blockBrand = await prisma.brand.update({
+      where: { id: id },
+      data: {
+        status: "block",
+      },
+    });
+
+    if (!blockBrand) {
+      return res.status(404).json({
+        message: "Brand not found",
+        data: blockBrand,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Brand Blocked",
+      data: blockBrand,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while blocking brand" });
+  }
+};
+
+export const unBlockBrand = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const unBlockBrand = await prisma.brand.update({
+      where: { id: id },
+      data: {
+        status: "active",
+      },
+    });
+
+    if (!unBlockBrand) {
+      return res.status(404).json({
+        message: "Brand not found",
+        data: unBlockBrand,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Brand Unblocked",
+      data: unBlockBrand,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while unblocking brand" });
+  }
+};
+
+export const deleteBrand = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    await prisma.brand.delete({
+      where: { id: id },
+    });
+
+    return res.status(200).json({
+      message: "Brand Deleted",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while deleting brand" });
+  }
+};

@@ -6,10 +6,17 @@ import {
   vRegisterValidator,
 } from "../validator/vendorValidator";
 import { generateAccessToken } from "../utils/tokens/generateTokens";
+import {
+  productValidator,
+  updateProductValidator,
+} from "../validator/productValidator";
 const prisma = new PrismaClient();
 
 const saltRound = 10;
 
+/* 
+Vendor Registration Function
+*/
 export const vendorRegister = async (req: Request, res: Response) => {
   try {
     const { firstName, lastName, email, companyName, phone, password } =
@@ -57,6 +64,9 @@ export const vendorRegister = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Vendor Login Function
+*/
 export const vendorLogin = async (req: Request, res: Response) => {
   try {
     const { email, password } = await vLoginValidator.parseAsync(req.body);
@@ -124,6 +134,9 @@ export const vendorLogin = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get Vendor Profile
+*/
 export const vendorProfile = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
@@ -169,11 +182,310 @@ export const vendorProfile = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Update Vendor Profile Function
+*/
+export const updateVendor = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while updating vendor profile" });
+  }
+};
+
+/* 
+Add Vendor Product Function
+*/
 export const vAddProduct = async (req: Request, res: Response) => {
   try {
+    const user = req.decodedToken;
+    const { catId, subCatId } = req.params;
+    const productData = await productValidator.parseAsync(req.body);
+
+    const newProduct = await prisma.product.create({
+      data: {
+        ...productData,
+        vendorId: user.userId,
+        categoryId: catId,
+        subCategoryId: subCatId,
+      },
+    });
+    if (!newProduct) {
+      return res
+        .status(409)
+        .json({ message: "Product with similar data already exists" });
+    }
+    return res.status(201).json({
+      message: "Product added successfully",
+      data: newProduct,
+    });
   } catch (error) {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging
     return res.status(500).json({ message: "Error getting vendor profile" });
+  }
+};
+
+/* 
+Get Particular Product
+*/
+export const updateVendorProduct = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const productId = req.params.productId;
+    const productData = await updateProductValidator.parseAsync(req.body);
+    const updatedProduct = await prisma.product.update({
+      where: { vendorId: user.userId, id: productId },
+      data: {
+        ...productData,
+      },
+    });
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res.status(200).json({
+      data: updatedProduct,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting vendor profile" });
+  }
+};
+
+/* 
+Get Particular Product
+*/
+export const getProduct = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const productId = req.params.productId;
+
+    const product = await prisma.product.findUnique({
+      where: { vendorId: user.userId, id: productId },
+    });
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res.status(200).json({
+      data: product,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting vendor products" });
+  }
+};
+
+/* 
+Get Vendor Products Function
+(Admin Only)
+*/
+export const getProducts = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+
+    const products = await prisma.product.findMany({
+      where: { vendorId: user.userId },
+    });
+
+    return res.status(200).json({
+      data: products,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting vendor products" });
+  }
+};
+
+/* 
+Get All Vendors Function
+(Admin Only)
+*/
+export const getAllVendors = async (req: Request, res: Response) => {
+  try {
+    const vendors = await prisma.vendor.findMany({
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        companyName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        status: true,
+      },
+    });
+    if (!vendors) {
+      return res.status(404).json({
+        message: "Vendors not found",
+        data: vendors,
+      });
+    }
+    return res.status(200).json({
+      message: "Vendors Found",
+      data: vendors,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting vendors" });
+  }
+};
+
+/* 
+Get Vendor Function
+(Admin Only)
+*/
+export const getVendor = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const vendor = await prisma.vendor.findUnique({
+      where: { id: id },
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        companyName: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        status: true,
+        contactEmail: true,
+        products: true,
+      },
+    });
+
+    if (!vendor) {
+      return res.status(404).json({
+        message: "Vendor not found",
+        data: vendor,
+      });
+    }
+
+    return res.status(200).json({
+      message: "Vendor Found",
+      data: vendor,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting vendor" });
+  }
+};
+
+/* 
+Block Vendor Function
+(Admin Only)
+*/
+export const blockVendor = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const blockVendor = await prisma.vendor.update({
+      where: { id: id },
+      data: {
+        status: "block",
+      },
+    });
+
+    if (!blockVendor) {
+      return res.status(404).json({
+        message: "Vendor not found",
+        data: blockVendor,
+      });
+    }
+    return res.status(200).json({
+      message: "Vendor Blocked",
+      data: blockVendor,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while blocking vendor" });
+  }
+};
+
+/* 
+Unblock Vendor Function
+(Admin Only)
+*/
+export const unBlockVendor = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const unBlockVendor = await prisma.vendor.update({
+      where: { id: id },
+      data: {
+        status: "active",
+      },
+    });
+
+    if (!unBlockVendor) {
+      return res.status(404).json({
+        message: "Vendor not found",
+        data: unBlockVendor,
+      });
+    }
+    return res.status(200).json({
+      message: "Vendor Unblocked",
+      data: unBlockVendor,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while unblocking vendor" });
+  }
+};
+
+/* 
+Delete Vendor Function
+(Admin Only)
+*/
+export const deleteVendor = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    await prisma.vendor.delete({
+      where: { id: id },
+    });
+
+    return res.status(200).json({
+      message: "Vendor Deleted",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while deleting vendor" });
   }
 };
