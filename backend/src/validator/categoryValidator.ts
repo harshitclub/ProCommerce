@@ -14,4 +14,5 @@ export const addSubCatValidator = z.object({
   slug: z.string(),
   metaDescription: z.string().optional(),
   keywords: z.string().optional(),
+  parentCategoryId: z.string(),
 });

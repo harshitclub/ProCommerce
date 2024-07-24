@@ -173,8 +173,10 @@ model Product {
   wishList             Wishlist[]
   brand                Brand[]
   productComplain      ProductComplain[]
-  category             Category[]
-  subCategory          SubCategory[]
+  categoryId           String?
+  category             Category?         @relation(fields: [categoryId], references: [id])
+  subCategoryId        String
+  subCategory          SubCategory       @relation(fields: [subCategoryId], references: [id])
 }
 
 model Brand {
@@ -229,8 +231,7 @@ model Category {
   updatedAt       DateTime @updatedAt
 
   // relationships
-  product       Product?      @relation(fields: [productId], references: [id])
-  productId     String?
+  products      Product[]
   subCategories SubCategory[]
 }
 
@@ -246,10 +247,9 @@ model SubCategory {
   updatedAt       DateTime @updatedAt
 
   // relationship
-  parentCategory   Category @relation(fields: [parentCategoryId], references: [id])
-  parentCategoryId String   @unique
-  product          Product? @relation(fields: [productId], references: [id])
-  productId        String?
+  parentCategory   Category  @relation(fields: [parentCategoryId], references: [id])
+  parentCategoryId String
+  products         Product[]
 }
 
 // Reviews Comment
@@ -329,6 +329,8 @@ model BrandComplain {
   vendorId  String
   brand     Brand    @relation(fields: [brandId], references: [id])
   brandId   String
+  title     String
+  message   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -168,3 +168,12 @@ export const vendorProfile = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error getting vendor profile" });
   }
 };
+
+export const vAddProduct = async (req: Request, res: Response) => {
+  try {
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting vendor profile" });
+  }
+};

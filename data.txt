@@ -1,0 +1,8 @@
+Super Admin Api's:-
+1. /super-admin/register (Register Super Admin)
+2. /super-admin/login (Login Super Admin)
+3. /super-admin/profile (Get Profile)
+4. /super-admin/users (Get All User's)
+5. /super-admin/user/:id (Get Particular User)
+6. /super-admin/user/:id/cart (Get User's Cart Items)
+7. /super-admin
