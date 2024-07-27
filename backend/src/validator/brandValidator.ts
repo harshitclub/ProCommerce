@@ -47,3 +47,28 @@ export const brandLoginValidator = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string(),
 });
+
+export const brandUpdateValidator = z.object({
+  brandName: z.string().optional(),
+  phone: z.string().optional(),
+  niche: z
+    .enum([
+      "fashion",
+      "electronics",
+      "home_garden",
+      "healthcare",
+      "pets",
+      "games_toys",
+      "baby_kids",
+      "food_beverages",
+      "art_crafts",
+    ])
+    .optional(),
+  slug: z.string().optional(),
+  country: z.string().optional(),
+  missionStatement: z.string().optional(),
+  slogan: z.string().optional(),
+  description: z.string().optional(),
+  metaDescription: z.string().optional(),
+  keywords: z.string().optional(),
+});

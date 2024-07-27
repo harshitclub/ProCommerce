@@ -24,7 +24,7 @@ export const vLoginValidator = z.object({
   password: z.string(),
 });
 
-export const updateVendor = z.object({
+export const updateVendorValidator = z.object({
   firstName: z.string().optional(),
   lastName: z.string().optional(),
   companyName: z.string().optional(),

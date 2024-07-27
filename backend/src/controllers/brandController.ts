@@ -4,8 +4,14 @@ import bcrypt from "bcrypt";
 import {
   brandLoginValidator,
   brandRegisterValidator,
+  brandUpdateValidator,
 } from "../validator/brandValidator";
 import { generateAccessToken } from "../utils/tokens/generateTokens";
+import {
+  productValidator,
+  updateProductValidator,
+} from "../validator/productValidator";
+import validatePassword from "../utils/shorters/passwordChecker";
 const prisma = new PrismaClient();
 
 const saltRound = 10;
@@ -197,6 +203,200 @@ export const brandProfile = async (req: Request, res: Response) => {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging
     return res.status(500).json({ message: "Error getting brand profile" });
+  }
+};
+
+export const updateBrand = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const brandData = await brandUpdateValidator.parseAsync(req.body);
+    const updatedBrand = await prisma.brand.update({
+      where: { id: user.userId },
+      data: {
+        ...brandData,
+      },
+    });
+
+    if (!updatedBrand) {
+      return res.status(400).json({
+        message: "Error While Updating Vendor",
+        data: updatedBrand,
+      });
+    }
+    return res.status(200).json({
+      message: "Brand Updated",
+      data: updatedBrand,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while updating vendor profile" });
+  }
+};
+
+export const bChangePassword = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res
+        .status(400) // Bad Request
+        .json({
+          message: "Missing required fields: oldPassword and newPassword",
+        });
+    }
+
+    const brand = await prisma.brand.findUnique({
+      where: { email: user.userEmail },
+    });
+
+    if (!brand) {
+      return res
+        .status(401) // Unauthorized
+        .json({ message: "Invalid credentials or unauthorized access" });
+    }
+
+    const passwordStrength = validatePassword(newPassword);
+    if (!passwordStrength.isValid) {
+      return res
+        .status(400) // Bad Request
+        .json({ message: passwordStrength.message });
+    }
+
+    const comparePassword = await bcrypt.compare(oldPassword, brand.password);
+    if (!comparePassword) {
+      return res
+        .status(401) // Unauthorized
+        .json({ message: "Incorrect old password" });
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, saltRound);
+
+    const updatedBrand = await prisma.brand.update({
+      where: { email: brand.email },
+      data: { password: hashPassword },
+    });
+
+    return res
+      .status(200) // OK
+      .json({ message: "Password Changed" });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while changing password" });
+  }
+};
+
+export const bAddProduct = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const { catId, subCatId } = req.params;
+
+    const productData = await productValidator.parseAsync(req.body);
+
+    const newProduct = await prisma.product.create({
+      data: {
+        ...productData,
+        brandId: user.userId,
+        categoryId: catId,
+        subCategoryId: subCatId,
+      },
+    });
+    if (!newProduct) {
+      return res
+        .status(409)
+        .json({ message: "Product with similar data already exists" });
+    }
+    return res.status(201).json({
+      message: "Product added successfully",
+      data: newProduct,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error Adding Product" });
+  }
+};
+
+export const getBrandProducts = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const products = await prisma.product.findMany({
+      where: { brandId: user.userId },
+    });
+    return res.status(200).json({
+      data: products,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error Getting Products" });
+  }
+};
+
+export const getBrandProduct = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const id = req.params.id as string;
+    const product = await prisma.product.findUnique({
+      where: { id: id, brandId: user.userId },
+    });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    return res.status(200).json({
+      data: product,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error Getting Product" });
+  }
+};
+
+export const updateBrandProduct = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const productId = req.params.productId as string;
+    const productData = await updateProductValidator.parseAsync(req.body);
+    const updatedProduct = await prisma.product.update({
+      where: { brandId: user.userId, id: productId },
+      data: {
+        ...productData,
+      },
+    });
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res.status(200).json({
+      data: updatedProduct,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while updating product" });
+  }
+};
+
+export const deleteBrandProduct = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const productId = req.params.id as string;
+    await prisma.product.delete({
+      where: { id: productId, brandId: user.userId },
+    });
+
+    return res.status(200).json({
+      message: "Product Deleted",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error deleting brand products" });
   }
 };
 

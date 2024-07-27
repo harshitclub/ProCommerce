@@ -16,7 +16,6 @@ export const productValidator = z.object({
   metaDescription: z.string().max(250).optional(),
   keywords: z.string().max(250).optional(),
   minimumOrderQuantity: z.number(),
-  vendorId: z.string().optional(),
 });
 
 export const updateProductValidator = z.object({

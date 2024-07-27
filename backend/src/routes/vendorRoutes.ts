@@ -2,6 +2,7 @@ import express from "express";
 import {
   blockVendor,
   deleteVendor,
+  deleteVProduct,
   getAllVendors,
   getProduct,
   getProducts,
@@ -10,6 +11,7 @@ import {
   updateVendor,
   updateVendorProduct,
   vAddProduct,
+  vChangePassword,
   vendorLogin,
   vendorProfile,
   vendorRegister,
@@ -34,7 +36,8 @@ vendorRouter.get("/products", isLogin, isVendor, getProducts);
 vendorRouter.get("/product/:productId", isLogin, isVendor, getProduct);
 
 // Patch Request
-vendorRouter.patch("/update", isLogin, isAdmin, updateVendor);
+vendorRouter.patch("/update", isLogin, isVendor, updateVendor);
+vendorRouter.patch("/change-password", isLogin, isVendor, vChangePassword);
 vendorRouter.patch(
   "/product/:productId",
   isLogin,
@@ -43,6 +46,7 @@ vendorRouter.patch(
 );
 
 // Delete Request
+vendorRouter.delete("/product/delete/:id", isLogin, isVendor, deleteVProduct);
 
 // admin access routes for vendor
 vendorRouter.get("/all", isLogin, isAdmin, getAllVendors);
