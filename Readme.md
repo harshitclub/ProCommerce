@@ -5,12 +5,12 @@
 ## Tech Stack
 | **Component** | **Technology** |
 | ------------- | -------------- |
-| Frontend      | React.js, Next.js |
-| UI Library    | Shadcn, Aceternity-UI |
-| Backend       | Node.js, Express.js   |
-| Programming Language | JavaScript, TypeScript |
-| ORM | Prisma |
-| Database | PostgreSQL |
-| Frontend Deployment | Vercel |
-| Backend Deployment | AWS EC2 |
-| Cloud Storage | Cloudinary |
+| **Frontend**      | React.js, Next.js |
+| **UI Library**    | Shadcn, Aceternity-UI |
+| **Backend**       | Node.js, Express.js   |
+| **Programming Language** | JavaScript, TypeScript |
+| **ORM** | Prisma |
+| **Database** | PostgreSQL |
+| **Frontend Deployment** | Vercel |
+| **Backend Deployment** | AWS EC2 |
+| **Cloud Storage** | Cloudinary |
