@@ -22,3 +22,9 @@ export const userLoginValidator = z.object({
     .email({ message: "Invalid email address" }),
   password: z.string(),
 });
+
+export const userUpdateValidator = z.object({
+  firstName: z.string().optional(),
+  lastName: z.string().optional(),
+  phone: z.string().optional(),
+});

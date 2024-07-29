@@ -169,7 +169,7 @@ model Product {
   vendor               Vendor?           @relation(fields: [vendorId], references: [id])
   vendorId             String?
   reviews              Review[]
-  cartItems            CartItem[]
+  cart                 Cart[]
   wishList             Wishlist[]
   brand                Brand?            @relation(fields: [brandId], references: [id])
   brandId              String?
@@ -257,27 +257,12 @@ model SubCategory {
 // Reviews Comment
 
 model Cart {
-  id                String   @id @default(uuid())
-  user              User     @relation(fields: [userId], references: [id])
-  userId            String
-  totalProductCount Int
-  totalPrice        Float
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  // Relationships
-  cartItems CartItem[]
-}
-
-model CartItem {
-  id       String @id @default(uuid())
-  quantity Int
-  price    Float
-
-  // Relationships
-  cart      Cart    @relation(fields: [cartId], references: [id])
-  cartId    String
-  product   Product @relation(fields: [productId], references: [id])
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id])
   productId String
 }
 

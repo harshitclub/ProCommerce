@@ -25,6 +25,7 @@ brandRouter.post("/login", brandLogin);
 brandRouter.get("/profile", isLogin, isBrand, brandProfile);
 brandRouter.patch("/update", isLogin, isLogin, updateBrand);
 brandRouter.patch("/change-password", isLogin, isBrand, bChangePassword);
+brandRouter.patch("/send-forget-password-token");
 brandRouter.patch("/forget-password/:token");
 
 brandRouter.post(

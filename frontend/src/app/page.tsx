@@ -1,3 +1,7 @@
 export default function Home() {
-  return <main>ProCommerce</main>;
+  return (
+    <>
+      <h1>ProCommerce</h1>
+    </>
+  );
 }

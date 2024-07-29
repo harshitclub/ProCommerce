@@ -1,10 +1,18 @@
 import express from "express";
 import {
+  addToCart,
+  addToWishlist,
   blockUser,
   deleteUser,
   getAllUsers,
+  getCartItems,
   getUser,
+  getWishlistItems,
+  removeFromCart,
+  removeFromWishlist,
   unBlockUser,
+  updateUser,
+  userChangePassword,
   userLogin,
   userProfile,
   userRegister,
@@ -16,6 +24,21 @@ const userRouter = express.Router();
 userRouter.post("/register", userRegister);
 userRouter.post("/login", userLogin);
 userRouter.get("/profile", isLogin, userProfile);
+userRouter.patch("/update", isLogin, updateUser);
+userRouter.patch("/change-password", isLogin, userChangePassword);
+userRouter.patch("/send-forget-password-token");
+userRouter.patch("/forget-password/:token");
+
+userRouter.post("/add-to-cart", isLogin, addToCart);
+userRouter.get("/my-cart", isLogin, getCartItems);
+userRouter.delete("/remove-from-cart/:cartItemId", isLogin, removeFromCart);
+userRouter.post("/add-to-wishlist", isLogin, addToWishlist);
+userRouter.get("/my-wishlist", isLogin, getWishlistItems);
+userRouter.delete(
+  "/remove-from-wishlist/:wishlistItemId",
+  isLogin,
+  removeFromWishlist
+);
 
 // admin access routes for user
 userRouter.get("/all", isLogin, isAdmin, getAllUsers);

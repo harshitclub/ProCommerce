@@ -4,8 +4,10 @@ import bcrypt from "bcrypt";
 import {
   userLoginValidator,
   userRegisterValidator,
+  userUpdateValidator,
 } from "../validator/userValidator";
 import { generateAccessToken } from "../utils/tokens/generateTokens";
+import validatePassword from "../utils/shorters/passwordChecker";
 const prisma = new PrismaClient();
 
 const saltRound = 10;
@@ -160,6 +162,265 @@ export const userProfile = async (req: Request, res: Response) => {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging
     return res.status(500).json({ message: "Error getting user profile" });
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const userData = await userUpdateValidator.parseAsync(req.body);
+    const updatedUser = await prisma.user.update({
+      where: { id: user.userId },
+      data: {
+        ...userData,
+      },
+    });
+    if (!updatedUser) {
+      return res.status(400).json({
+        message: "Error While Updating Vendor",
+        data: updatedUser,
+      });
+    }
+    return res.status(200).json({
+      message: "User Updated",
+      data: updatedUser,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while updating user profile" });
+  }
+};
+
+export const userChangePassword = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res
+        .status(400) // Bad Request
+        .json({
+          message: "Missing required fields: oldPassword and newPassword",
+        });
+    }
+
+    const findUser = await prisma.user.findUnique({
+      where: { email: user.userEmail },
+    });
+
+    if (!findUser) {
+      return res
+        .status(401) // Unauthorized
+        .json({ message: "Invalid credentials or unauthorized access" });
+    }
+
+    const passwordStrength = validatePassword(newPassword);
+    if (!passwordStrength.isValid) {
+      return res
+        .status(400) // Bad Request
+        .json({ message: passwordStrength.message });
+    }
+
+    const comparePassword = await bcrypt.compare(
+      oldPassword,
+      findUser.password
+    );
+    if (!comparePassword) {
+      return res
+        .status(401) // Unauthorized
+        .json({ message: "Incorrect old password" });
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, saltRound);
+
+    const updatedUser = await prisma.user.update({
+      where: { email: findUser.email },
+      data: { password: hashPassword },
+    });
+
+    return res
+      .status(200) // OK
+      .json({ message: "Password Changed" });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while changing password" });
+  }
+};
+
+export const addToCart = async (req: Request, res: Response) => {
+  try {
+    const productId = req.body.productId;
+    const user = req.decodedToken;
+
+    if (!productId || !user) {
+      return res
+        .status(400)
+        .json({ message: "Missing required fields: productId or user" });
+    }
+
+    const existingCartItem = await prisma.cart.findFirst({
+      where: {
+        userId: user.userId,
+        productId,
+      },
+    });
+
+    if (existingCartItem) {
+      return res.status(400).json({ message: "Product already in cart" });
+    }
+
+    const addedProduct = await prisma.cart.create({
+      data: {
+        userId: user.userId,
+        productId,
+      },
+    });
+
+    return res
+      .status(201)
+      .json({ message: "Product Added To Cart", cartItem: addedProduct });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while adding product to cart" });
+  }
+};
+export const getCartItems = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const cartItems = await prisma.cart.findMany({
+      where: {
+        userId: user.userId,
+      },
+      select: {
+        id: true,
+        product: true,
+      },
+    });
+
+    return res.status(200).json({
+      data: cartItems,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while fetching cart" });
+  }
+};
+export const removeFromCart = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+
+    const cartItemId = req.params.cartItemId;
+
+    await prisma.cart.delete({
+      where: {
+        id: cartItemId,
+        userId: user.userId,
+      },
+    });
+
+    return res.status(201).json({
+      message: "Product Removed From Cart",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while removing product from cart" });
+  }
+};
+export const addToWishlist = async (req: Request, res: Response) => {
+  try {
+    const productId = req.body.productId;
+    const user = req.decodedToken;
+
+    if (!productId || !user) {
+      return res
+        .status(400)
+        .json({ message: "Missing required fields: productId or user" });
+    }
+
+    const existingWishlistItem = await prisma.wishlist.findFirst({
+      where: {
+        userId: user.userId,
+        productId,
+      },
+    });
+
+    if (existingWishlistItem) {
+      return res.status(400).json({ message: "Product already in wishlist" });
+    }
+
+    const addedProduct = await prisma.wishlist.create({
+      data: {
+        userId: user.userId,
+        productId,
+      },
+    });
+
+    return res.status(201).json({
+      message: "Product Added To Wishlist",
+      wishlistItem: addedProduct,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while adding product to wishlist" });
+  }
+};
+export const getWishlistItems = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const wishlistItems = await prisma.wishlist.findMany({
+      where: {
+        userId: user.userId,
+      },
+      select: {
+        id: true,
+        product: true,
+      },
+    });
+
+    return res.status(200).json({
+      data: wishlistItems,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while fetching wishlist" });
+  }
+};
+export const removeFromWishlist = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+
+    const wishlistItemId = req.params.wishlistItemId;
+
+    await prisma.wishlist.delete({
+      where: {
+        id: wishlistItemId,
+        userId: user.userId,
+      },
+    });
+
+    return res.status(201).json({
+      message: "Product Removed From Wishlist",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while removing product from wishlist" });
   }
 };
 
