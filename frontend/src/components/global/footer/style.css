@@ -1,0 +1,30 @@
+footer {
+  background-color: #1e293b;
+  margin: 1rem 0 0 0;
+}
+
+footer > .footerContainer {
+  padding: 2rem 0;
+}
+
+footer > .footerContainer > .fMenu {
+  color: #fff;
+  width: calc(100% / 6);
+}
+
+footer > .footerContainer > .fMenu > h3 {
+  font-size: 1.2rem;
+  border-bottom: 1px solid #475569;
+  padding: 0 0 0.5rem 0;
+  margin: 0 0 0.5rem 0;
+}
+
+footer > .footerContainer {
+  border-bottom: 1px solid #475569;
+  margin: 0 0 1rem 0;
+}
+
+footer > .fCopyright {
+  color: white;
+  margin: 0 0 1rem 0;
+}

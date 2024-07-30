@@ -1,0 +1,133 @@
+.homeProducts > .hProductsContainer {
+  background-color: #fff;
+  margin: 1rem 0 0 0;
+  padding: 1rem;
+  border-radius: 0.3rem;
+}
+
+.homeProducts > .hProductsContainer > .hProductsTab > .hPTHead {
+  margin: 0 0 1rem 0;
+}
+
+.homeProducts > .hProductsContainer > .hProductsTab > .hPTHead > h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.homeProducts > .hProductsContainer > .hProductsTab > .hPTHead > a {
+  font-size: 1rem;
+  color: #64748b;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox {
+  /* border: 1px solid #cbd5e1; */
+  width: calc(100% / 4);
+  border-radius: 0.3rem;
+  height: auto;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > .hPBImage {
+  width: 100%;
+  height: 18rem;
+  background-color: #f1f5f9;
+  border-radius: 0.3rem;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > .hPBImage
+  > img {
+  width: 100%;
+  height: 100%;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > .hPBWishlist
+  > .hPBWishlistIcon {
+  margin-bottom: -1.5rem;
+  margin-right: 0.3rem;
+  cursor: pointer;
+  color: #dc2626;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > h3 {
+  font-weight: 500;
+  margin: 1rem 0 0 0;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > .hPBButtons {
+  margin: 1rem 0 0 0;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > .hPBButtons
+  > .hPBButton {
+  width: 50%;
+  border-radius: 0.3rem;
+  background-color: #475569;
+  padding: 0.5rem;
+  color: #fff;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > .hPBButtons
+  > .hPBButtonCart {
+  background-color: #e2e8f0;
+  color: #64748b;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > .hPBButtons
+  > .hPBButtonCart:hover {
+  background-color: #cbd5e1 !important;
+}
+
+.homeProducts
+  > .hProductsContainer
+  > .hProductsTab
+  > .hProductTabChild
+  > .hProductBox
+  > .hPBButtons
+  > .hPBButton:hover {
+  background-color: #334155;
+  transition: 0.3s all ease-in-out;
+}

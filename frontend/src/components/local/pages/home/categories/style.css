@@ -1,0 +1,18 @@
+.categories {
+  margin: 1rem 0 0 0;
+}
+.categories > .catContainer {
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 0.3rem;
+}
+.categories > .catContainer > .catBox {
+  width: 10%;
+  border: 1px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 6rem;
+  border-radius: 0.3rem;
+}

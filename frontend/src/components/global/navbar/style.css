@@ -1,0 +1,12 @@
+nav {
+  padding: 1rem;
+  background-color: #fff;
+}
+
+nav > .navbar > .logo > h1 {
+  font-weight: 700;
+}
+
+nav > .navbar > .navSearch {
+  flex-grow: 1;
+}
