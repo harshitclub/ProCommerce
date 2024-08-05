@@ -11,6 +11,7 @@ import userRouter from "./routes/userRoutes";
 import brandRouter from "./routes/brandRoutes";
 import { categoryRouter, subCategoryRouter } from "./routes/categoryRoutes";
 import productRouter from "./routes/productRoutes";
+import addressRouter from "./routes/addressRoutes";
 
 dotenv.config();
 const app = express();
@@ -57,5 +58,6 @@ app.use("/api/v1/brand", brandRouter);
 app.use("/api/v1/category", categoryRouter);
 app.use("/api/v1/sub-category", subCategoryRouter);
 app.use("/api/v1/product", productRouter);
+app.use("/api/v1/address", addressRouter);
 
 app.listen(PORT, handleListen);
