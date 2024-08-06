@@ -16,5 +16,6 @@ addressRouter.delete("/delete-address/:id", isLogin);
 // admin routes
 
 addressRouter.get("/addresses", isLogin, isAdmin, getAddresses);
+addressRouter.get("/get-user-addresses/:id", isLogin, isAdmin);
 
 export default addressRouter;
