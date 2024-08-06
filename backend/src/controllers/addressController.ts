@@ -26,6 +26,25 @@ export const addingAddress = async (req: Request, res: Response) => {
   }
 };
 
+export const getMyAddresses = async (req: Request, res: Response) => {
+  try {
+    const user = req.decodedToken;
+    const addresses = await prisma.address.findMany({
+      where: {
+        userId: user.userId,
+      },
+    });
+
+    return res.status(200).json({
+      data: { addresses },
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error Finding Address" });
+  }
+};
+
 export const getAddresses = async (req: Request, res: Response) => {
   try {
     const addresses = await prisma.address.findMany({});
@@ -35,6 +54,6 @@ export const getAddresses = async (req: Request, res: Response) => {
   } catch (error) {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging
-    return res.status(500).json({ message: "Error Adding Address" });
+    return res.status(500).json({ message: "Error Finding Address" });
   }
 };
