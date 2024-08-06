@@ -45,6 +45,24 @@ export const getMyAddresses = async (req: Request, res: Response) => {
   }
 };
 
+export const deleteMyAddress = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await prisma.address.delete({
+      where: {
+        id: id,
+      },
+    });
+    return res.status(200).json({
+      message: "Address Deleted",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error Deleting Address" });
+  }
+};
+
 export const getAddresses = async (req: Request, res: Response) => {
   try {
     const addresses = await prisma.address.findMany({});

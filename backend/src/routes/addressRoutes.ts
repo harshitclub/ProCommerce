@@ -2,6 +2,7 @@ import express from "express";
 import { isAdmin, isLogin } from "../middlewares/auth";
 import {
   addingAddress,
+  deleteMyAddress,
   getAddresses,
   getMyAddresses,
   getUserAddresses,
@@ -12,7 +13,7 @@ const addressRouter = express();
 addressRouter.post("/add", isLogin, addingAddress);
 addressRouter.get("/my-addresses", isLogin, getMyAddresses);
 addressRouter.patch("/update-address/:id", isLogin);
-addressRouter.delete("/delete-address/:id", isLogin);
+addressRouter.delete("/delete-address/:id", isLogin, deleteMyAddress);
 addressRouter.patch("/default", isLogin);
 
 // admin routes
