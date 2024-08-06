@@ -13,6 +13,7 @@ addressRouter.post("/add", isLogin, addingAddress);
 addressRouter.get("/my-addresses", isLogin, getMyAddresses);
 addressRouter.patch("/update-address/:id", isLogin);
 addressRouter.delete("/delete-address/:id", isLogin);
+addressRouter.patch("/default", isLogin);
 
 // admin routes
 
