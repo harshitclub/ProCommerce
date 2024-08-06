@@ -136,6 +136,42 @@ export const getCategory = async (req: Request, res: Response) => {
   }
 };
 
+export const getCategoryProducts = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const products = await prisma.category.findMany({
+      where: { id: id },
+      select: { products: true },
+    });
+
+    return res.status(200).json({
+      data: products,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting products" });
+  }
+};
+
+export const getCategorySubCategories = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const subCategories = await prisma.category.findMany({
+      where: { id },
+      select: { subCategories: true },
+    });
+    return res.status(200).json({
+      data: subCategories,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error getting sub categories" });
+  }
+};
+
 export const addSubCategory = async (req: Request, res: Response) => {
   try {
     const {
@@ -274,5 +310,28 @@ export const getSubCategory = async (req: Request, res: Response) => {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging
     return res.status(500).json({ message: "Error registering super admin" });
+  }
+};
+
+export const getSubCategoryProducts = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string; // Type cast for clarity (optional)
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Missing required parameter: id" });
+    }
+
+    const products = await prisma.subCategory.findMany({
+      where: { id },
+      select: { products: true },
+    });
+    return res.status(200).json({
+      data: products,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while fetching products" });
   }
 };
