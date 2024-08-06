@@ -57,3 +57,17 @@ export const getAddresses = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error Finding Address" });
   }
 };
+
+export const getUserAddresses = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const addresses = await prisma.address.findMany({
+      where: { userId: id },
+    });
+
+    return res.status(200).json({
+      data: { addresses },
+    });
+  } catch (error) {}
+};

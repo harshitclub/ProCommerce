@@ -4,6 +4,7 @@ import {
   addingAddress,
   getAddresses,
   getMyAddresses,
+  getUserAddresses,
 } from "../controllers/addressController";
 
 const addressRouter = express();
@@ -16,6 +17,11 @@ addressRouter.delete("/delete-address/:id", isLogin);
 // admin routes
 
 addressRouter.get("/addresses", isLogin, isAdmin, getAddresses);
-addressRouter.get("/get-user-addresses/:id", isLogin, isAdmin);
+addressRouter.get(
+  "/get-user-addresses/:id",
+  isLogin,
+  isAdmin,
+  getUserAddresses
+);
 
 export default addressRouter;
