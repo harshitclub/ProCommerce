@@ -136,6 +136,76 @@ export const getCategory = async (req: Request, res: Response) => {
   }
 };
 
+export const blockCategory = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string; // Type cast for clarity (optional)
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Missing required parameter: id" });
+    }
+
+    await prisma.category.update({
+      where: { id },
+      data: { status: "block" },
+    });
+
+    return res.status(200).json({
+      message: "Category Blocked",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error blocking category" });
+  }
+};
+
+export const unBlockCategory = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string; // Type cast for clarity (optional)
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Missing required parameter: id" });
+    }
+    await prisma.category.update({
+      where: { id },
+      data: { status: "active" },
+    });
+
+    return res.status(200).json({
+      message: "Category Activated",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error unblocking category" });
+  }
+};
+
+export const deleteCategory = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string; // Type cast for clarity (optional)
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Missing required parameter: id" });
+    }
+
+    await prisma.category.delete({
+      where: { id },
+    });
+
+    return res.status(200).json({
+      message: "Category Removed",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while deleting category" });
+  }
+};
+
 export const getCategoryProducts = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -310,6 +380,77 @@ export const getSubCategory = async (req: Request, res: Response) => {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging
     return res.status(500).json({ message: "Error registering super admin" });
+  }
+};
+
+export const blockSubCategory = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string; // Type cast for clarity (optional)
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Missing required parameter: id" });
+    }
+    await prisma.subCategory.update({
+      where: { id },
+      data: { status: "block" },
+    });
+
+    return res.status(200).json({
+      message: "Sub Category Blocked",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error blocking sub category" });
+  }
+};
+
+export const unBlockSubCategory = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string; // Type cast for clarity (optional)
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Missing required parameter: id" });
+    }
+    await prisma.subCategory.update({
+      where: { id },
+      data: { status: "active" },
+    });
+
+    return res.status(200).json({
+      message: "Sub Category Activated",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error unblocking sub category" });
+  }
+};
+
+export const deleteSubCategory = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string; // Type cast for clarity (optional)
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Missing required parameter: id" });
+    }
+
+    await prisma.category.delete({
+      where: { id },
+    });
+
+    return res.status(200).json({
+      message: "Sub Category Removed",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while deleting sub category" });
   }
 };
 

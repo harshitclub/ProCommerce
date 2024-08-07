@@ -21,30 +21,36 @@ import { isAdmin, isLogin } from "../middlewares/auth";
 
 const userRouter = express.Router();
 
-userRouter.post("/register", userRegister);
-userRouter.post("/login", userLogin);
-userRouter.get("/profile", isLogin, userProfile);
-userRouter.patch("/update", isLogin, updateUser);
-userRouter.patch("/change-password", isLogin, userChangePassword);
-userRouter.patch("/send-forget-password-token");
-userRouter.patch("/forget-password/:token");
+/* POST Request (User Only)*/
+userRouter.post("/register", userRegister); // register user
+userRouter.post("/login", userLogin); // login user
+userRouter.post("/add-to-cart", isLogin, addToCart); // add product to cart
+userRouter.post("/add-to-wishlist", isLogin, addToWishlist); // add product to wishlist
 
-userRouter.post("/add-to-cart", isLogin, addToCart);
-userRouter.get("/my-cart", isLogin, getCartItems);
-userRouter.delete("/remove-from-cart/:cartItemId", isLogin, removeFromCart);
-userRouter.post("/add-to-wishlist", isLogin, addToWishlist);
-userRouter.get("/my-wishlist", isLogin, getWishlistItems);
+/* GET Request (User Only)*/
+userRouter.get("/profile", isLogin, userProfile); // get profile
+userRouter.get("/my-cart", isLogin, getCartItems); // get cart items
+userRouter.get("/my-wishlist", isLogin, getWishlistItems); // get wishlist items
+
+/* PATCH Request (User Only)*/
+userRouter.patch("/update", isLogin, updateUser); // update profile
+userRouter.patch("/change-password", isLogin, userChangePassword); // change password
+userRouter.patch("/send-forget-password-token"); // send forget password token to email
+userRouter.patch("/forget-password/:token"); // reset password
+
+/* DELETE Request (User Only)*/
+userRouter.delete("/remove-from-cart/:cartItemId", isLogin, removeFromCart); // remove product from cart
 userRouter.delete(
   "/remove-from-wishlist/:wishlistItemId",
   isLogin,
   removeFromWishlist
-);
+); // remove product from wishlist
 
 // admin access routes for user
-userRouter.get("/all", isLogin, isAdmin, getAllUsers);
-userRouter.get("/user/:id", isLogin, isAdmin, getUser);
-userRouter.patch("/block/:id", isLogin, isAdmin, blockUser);
-userRouter.patch("/unblock/:id", isLogin, isAdmin, unBlockUser);
-userRouter.delete("/user/:id", isLogin, isAdmin, deleteUser);
+userRouter.get("/all", isLogin, isAdmin, getAllUsers); // get all users
+userRouter.get("/user/:id", isLogin, isAdmin, getUser); // get user
+userRouter.patch("/block/:id", isLogin, isAdmin, blockUser); // block user
+userRouter.patch("/unblock/:id", isLogin, isAdmin, unBlockUser); // unblock user
+userRouter.delete("/user/:id", isLogin, isAdmin, deleteUser); // delete user
 
 export default userRouter;

@@ -10,20 +10,27 @@ import {
 
 const addressRouter = express();
 
-addressRouter.post("/add", isLogin, addingAddress);
-addressRouter.get("/my-addresses", isLogin, getMyAddresses);
-addressRouter.patch("/update-address/:id", isLogin);
-addressRouter.delete("/delete-address/:id", isLogin, deleteMyAddress);
-addressRouter.patch("/default", isLogin);
+/* POST Request (Only User)*/
+addressRouter.post("/add", isLogin, addingAddress); // adding address
 
-// admin routes
+/* GET Request (Only User)*/
+addressRouter.get("/my-addresses", isLogin, getMyAddresses); // retrieving address
 
-addressRouter.get("/addresses", isLogin, isAdmin, getAddresses);
+/* PATCH Request (Only User)*/
+addressRouter.patch("/update-address/:id", isLogin); // updating address
+addressRouter.patch("/default", isLogin); // mark address as default
+
+/* DELETE Request (Only User)*/
+addressRouter.delete("/delete-address/:id", isLogin, deleteMyAddress); // delete address
+
+/* ///// ADMIN Only \\\\\ */
+/* GET Request */
+addressRouter.get("/addresses", isLogin, isAdmin, getAddresses); // get all addresses by admin
 addressRouter.get(
   "/get-user-addresses/:id",
   isLogin,
   isAdmin,
   getUserAddresses
-);
+); // get user's addresses
 
 export default addressRouter;

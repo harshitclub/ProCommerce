@@ -20,39 +20,39 @@ import { isAdmin, isLogin, isVendor } from "../middlewares/auth";
 
 const vendorRouter = express.Router();
 
-// POST Request
-vendorRouter.post("/register", vendorRegister);
-vendorRouter.post("/login", vendorLogin);
+/* POST Request (Vendor Only)*/
+vendorRouter.post("/register", vendorRegister); // register vendor
+vendorRouter.post("/login", vendorLogin); // login vendor
 vendorRouter.post(
   "/product/add/:catId/:subCatId",
   isLogin,
   isVendor,
   vAddProduct
-);
+); // adding product as vendor
 
-// Get Request
-vendorRouter.get("/profile", isLogin, isVendor, vendorProfile);
-vendorRouter.get("/products", isLogin, isVendor, getProducts);
-vendorRouter.get("/product/:productId", isLogin, isVendor, getProduct);
+/* GET Request (Vendor Only)*/
+vendorRouter.get("/profile", isLogin, isVendor, vendorProfile); // getting profile
+vendorRouter.get("/products", isLogin, isVendor, getProducts); // getting vendor's products
+vendorRouter.get("/product/:productId", isLogin, isVendor, getProduct); // getting vendor's product
 
-// Patch Request
-vendorRouter.patch("/update", isLogin, isVendor, updateVendor);
-vendorRouter.patch("/change-password", isLogin, isVendor, vChangePassword);
+/* PATCH Request (Vendor Only)*/
+vendorRouter.patch("/update", isLogin, isVendor, updateVendor); // update vendor profile
+vendorRouter.patch("/change-password", isLogin, isVendor, vChangePassword); // change password
 vendorRouter.patch(
   "/product/:productId",
   isLogin,
   isVendor,
   updateVendorProduct
-);
+); // update vendor's product
 
-// Delete Request
-vendorRouter.delete("/product/delete/:id", isLogin, isVendor, deleteVProduct);
+/* DELETE Request (Vendor Only)*/
+vendorRouter.delete("/product/delete/:id", isLogin, isVendor, deleteVProduct); // delete vendor's product
 
 // admin access routes for vendor
-vendorRouter.get("/all", isLogin, isAdmin, getAllVendors);
-vendorRouter.get("/vendor/:id", isLogin, isAdmin, getVendor);
-vendorRouter.patch("/block/:id", isLogin, isAdmin, blockVendor);
-vendorRouter.patch("/unblock/:id", isLogin, isAdmin, unBlockVendor);
-vendorRouter.delete("/vendor/:id", isLogin, isAdmin, deleteVendor);
+vendorRouter.get("/all", isLogin, isAdmin, getAllVendors); // get all vendors
+vendorRouter.get("/vendor/:id", isLogin, isAdmin, getVendor); // get vendor
+vendorRouter.patch("/block/:id", isLogin, isAdmin, blockVendor); // block vendor
+vendorRouter.patch("/unblock/:id", isLogin, isAdmin, unBlockVendor); // unblock vendor
+vendorRouter.delete("/vendor/:id", isLogin, isAdmin, deleteVendor); // delete vendor
 
 export default vendorRouter;

@@ -20,30 +20,36 @@ import { isAdmin, isBrand, isLogin } from "../middlewares/auth";
 
 const brandRouter = express.Router();
 
-brandRouter.post("/register", brandRegister);
-brandRouter.post("/login", brandLogin);
-brandRouter.get("/profile", isLogin, isBrand, brandProfile);
-brandRouter.patch("/update", isLogin, isLogin, updateBrand);
-brandRouter.patch("/change-password", isLogin, isBrand, bChangePassword);
-brandRouter.patch("/send-forget-password-token");
-brandRouter.patch("/forget-password/:token");
-
+/* POST Request (Brand Only)*/
+brandRouter.post("/register", brandRegister); // register brand
+brandRouter.post("/login", brandLogin); // login brand
 brandRouter.post(
   "/product/add/:catId/:subCatId",
   isLogin,
   isBrand,
   bAddProduct
-);
-brandRouter.get("/products", isLogin, isBrand, getBrandProducts);
-brandRouter.get("/product/:id", isLogin, isBrand, getBrandProduct);
-brandRouter.patch("/product/:productId", isLogin, isBrand, updateBrandProduct);
-brandRouter.delete("/product/delete/:id", isLogin, isBrand, deleteBrandProduct);
+); // adding product
+
+/* GET Request (Brand Only)*/
+brandRouter.get("/profile", isLogin, isBrand, brandProfile); // getting brand profile
+brandRouter.get("/products", isLogin, isBrand, getBrandProducts); // get brand products
+brandRouter.get("/product/:id", isLogin, isBrand, getBrandProduct); // get brand product
+
+/* PATCH Request (Brand Only)*/
+brandRouter.patch("/update", isLogin, isLogin, updateBrand); // update brand profile
+brandRouter.patch("/change-password", isLogin, isBrand, bChangePassword); // change brand password
+brandRouter.patch("/send-forget-password-token"); // send forget password token to email
+brandRouter.patch("/forget-password/:token"); // reset password
+brandRouter.patch("/product/:productId", isLogin, isBrand, updateBrandProduct); // update brand's product
+
+/* DELETE Request (Brand Only)*/
+brandRouter.delete("/product/delete/:id", isLogin, isBrand, deleteBrandProduct); // delete product
 
 // admin access routes for brand
-brandRouter.get("/all", isLogin, isAdmin, getAllBrands);
-brandRouter.get("/brand/:id", isLogin, isAdmin, getBrand);
-brandRouter.patch("/block/:id", isLogin, isAdmin, blockBrand);
-brandRouter.patch("/unblock/:id", isLogin, isAdmin, unBlockBrand);
-brandRouter.delete("/vendor/:id", isLogin, isAdmin, deleteBrand);
+brandRouter.get("/all", isLogin, isAdmin, getAllBrands); // getting all brands
+brandRouter.get("/brand/:id", isLogin, isAdmin, getBrand); // get brand
+brandRouter.patch("/block/:id", isLogin, isAdmin, blockBrand); // block brand
+brandRouter.patch("/unblock/:id", isLogin, isAdmin, unBlockBrand); // unblock brand
+brandRouter.delete("/brand/:id", isLogin, isAdmin, deleteBrand); // delete brand
 
 export default brandRouter;
