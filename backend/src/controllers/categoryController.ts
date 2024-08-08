@@ -7,6 +7,10 @@ import {
 
 const prisma = new PrismaClient();
 
+/* 
+Add Category
+(Admin Only)
+*/
 export const addCategory = async (req: Request, res: Response) => {
   try {
     const { title, description, slug, metaDescription, keywords } =
@@ -33,6 +37,10 @@ export const addCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Update Category
+(Admin Only)
+*/
 export const updateCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
@@ -68,6 +76,10 @@ export const updateCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get Categories
+(Admin Only)
+*/
 export const getCategories = async (req: Request, res: Response) => {
   try {
     const categories = await prisma.category.findMany({
@@ -97,6 +109,10 @@ export const getCategories = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get Category
+(Admin Only)
+*/
 export const getCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)
@@ -136,6 +152,10 @@ export const getCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Block Category
+(Admin Only)
+*/
 export const blockCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)
@@ -160,6 +180,10 @@ export const blockCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Unblock Category
+(Admin Only)
+*/
 export const unBlockCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)
@@ -183,6 +207,10 @@ export const unBlockCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Delete Category
+(Admin Only)
+*/
 export const deleteCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)
@@ -206,6 +234,10 @@ export const deleteCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get Category Products
+(Admin Only)
+*/
 export const getCategoryProducts = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -225,6 +257,10 @@ export const getCategoryProducts = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Add Category's Sub Categories
+(Admin Only)
+*/
 export const getCategorySubCategories = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -242,6 +278,10 @@ export const getCategorySubCategories = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Add Sub Category
+(Admin Only)
+*/
 export const addSubCategory = async (req: Request, res: Response) => {
   try {
     const {
@@ -275,6 +315,10 @@ export const addSubCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Update Sub Category
+(Admin Only)
+*/
 export const updateSubCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
@@ -310,6 +354,10 @@ export const updateSubCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get Sub Categories
+(Admin Only)
+*/
 export const getSubCategories = async (req: Request, res: Response) => {
   try {
     const subCategories = await prisma.subCategory.findMany({
@@ -344,6 +392,10 @@ export const getSubCategories = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get Sub Category
+(Admin Only)
+*/
 export const getSubCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)
@@ -383,6 +435,10 @@ export const getSubCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Block Sub Category
+(Admin Only)
+*/
 export const blockSubCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)
@@ -406,6 +462,10 @@ export const blockSubCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Unblock Sub Category
+(Admin Only)
+*/
 export const unBlockSubCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)
@@ -429,6 +489,10 @@ export const unBlockSubCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Delete Sub Category
+(Admin Only)
+*/
 export const deleteSubCategory = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)
@@ -454,6 +518,10 @@ export const deleteSubCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get Sub Category Products
+(Admin Only)
+*/
 export const getSubCategoryProducts = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string; // Type cast for clarity (optional)

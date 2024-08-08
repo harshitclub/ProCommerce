@@ -12,6 +12,9 @@ const prisma = new PrismaClient();
 
 const saltRound = 10;
 
+/* 
+User Registration Function
+*/
 export const userRegister = async (req: Request, res: Response) => {
   try {
     const { firstName, lastName, email, phone, password } =
@@ -57,6 +60,9 @@ export const userRegister = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+User Login Function
+*/
 export const userLogin = async (req: Request, res: Response) => {
   try {
     const { email, password } = await userLoginValidator.parseAsync(req.body);
@@ -120,6 +126,9 @@ export const userLogin = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+User Profile Function
+*/
 export const userProfile = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
@@ -165,6 +174,9 @@ export const userProfile = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+User Profile Update Function
+*/
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
@@ -194,6 +206,9 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+User Change Password Function
+*/
 export const userChangePassword = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
@@ -250,6 +265,9 @@ export const userChangePassword = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+User add to cart Function
+*/
 export const addToCart = async (req: Request, res: Response) => {
   try {
     const productId = req.body.productId;
@@ -290,6 +308,10 @@ export const addToCart = async (req: Request, res: Response) => {
       .json({ message: "Error while adding product to cart" });
   }
 };
+
+/* 
+User get cart items Function
+*/
 export const getCartItems = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
@@ -312,6 +334,10 @@ export const getCartItems = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error while fetching cart" });
   }
 };
+
+/* 
+User remove product from cart Function
+*/
 export const removeFromCart = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
@@ -336,6 +362,10 @@ export const removeFromCart = async (req: Request, res: Response) => {
       .json({ message: "Error while removing product from cart" });
   }
 };
+
+/* 
+User add to wishlist Function
+*/
 export const addToWishlist = async (req: Request, res: Response) => {
   try {
     const productId = req.body.productId;
@@ -377,6 +407,10 @@ export const addToWishlist = async (req: Request, res: Response) => {
       .json({ message: "Error while adding product to wishlist" });
   }
 };
+
+/* 
+User get wishlist items Function
+*/
 export const getWishlistItems = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
@@ -399,6 +433,10 @@ export const getWishlistItems = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error while fetching wishlist" });
   }
 };
+
+/* 
+User remove from wishlist Function
+*/
 export const removeFromWishlist = async (req: Request, res: Response) => {
   try {
     const user = req.decodedToken;
@@ -424,6 +462,10 @@ export const removeFromWishlist = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get All Users
+(Admin Only)
+*/
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany({
@@ -457,6 +499,10 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get User
+(Admin Only)
+*/
 export const getUser = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
@@ -498,6 +544,10 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Block User
+(Admin Only)
+*/
 export const blockUser = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
@@ -532,6 +582,10 @@ export const blockUser = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Unblock User
+(Admin Only)
+*/
 export const unBlockUser = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
@@ -566,6 +620,10 @@ export const unBlockUser = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Delete User
+(Admin Only)
+*/
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;

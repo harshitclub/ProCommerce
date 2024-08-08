@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+/* 
+Get Products
+*/
 export const getProducts = async (req: Request, res: Response) => {
   try {
     const products = await prisma.product.findMany({
@@ -23,6 +26,10 @@ export const getProducts = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get Product
+(Admin Only)
+*/
 export const getProduct = async (req: Request, res: Response) => {
   try {
     const id = req.params.id as string;
