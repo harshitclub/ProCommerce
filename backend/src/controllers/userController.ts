@@ -1,14 +1,21 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import EventEmitter from "events";
 import bcrypt from "bcrypt";
 import {
   userLoginValidator,
   userRegisterValidator,
   userUpdateValidator,
 } from "../validator/userValidator";
-import { generateAccessToken } from "../utils/tokens/generateTokens";
+import {
+  generateAccessToken,
+  generateForgetPassToken,
+} from "../utils/tokens/generateTokens";
 import validatePassword from "../utils/shorters/passwordChecker";
+import { forgetPasswordMail } from "../utils/emails/forgetPasswordMail";
+import { verifyForgetPassToken } from "../utils/shorters/verifyForgetPassToken";
 const prisma = new PrismaClient();
+const userEmitter = new EventEmitter();
 
 const saltRound = 10;
 
@@ -262,6 +269,69 @@ export const userChangePassword = async (req: Request, res: Response) => {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging
     return res.status(500).json({ message: "Error while changing password" });
+  }
+};
+
+/* 
+User Forgot Password
+*/
+export const sendForgetPasswordEmail = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      // Handle user not found
+      return res.status(404).json({ message: "User not found" });
+    }
+    const token = await generateForgetPassToken({
+      userEmail: user?.email,
+    });
+    if (!token) {
+      // Handle token generation error
+      return res.status(500).json({ message: "Error generating token" });
+    }
+    await prisma.user.update({
+      where: { email: user.email },
+      data: { forgetPasswordToken: token },
+    });
+    userEmitter.emit("sendForgetPasswordMail", { email, token });
+    return res.status(200).json({
+      message: "Check Your Mail",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while sending forget password email" });
+  }
+};
+
+/* 
+User Forget Password
+*/
+export const userForgetPassword = async (req: Request, res: Response) => {
+  try {
+    const { newPassword } = req.body;
+    const token = req.params.token as string;
+    const verifiedToken = await verifyForgetPassToken(token);
+    if (!verifiedToken) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+    const hashPassword = await bcrypt.hash(newPassword, saltRound);
+    await prisma.user.update({
+      where: { email: verifiedToken.userEmail },
+      data: { password: hashPassword },
+    });
+    return res.status(200).json({
+      message: "Password changed",
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while resetting password" });
   }
 };
 
@@ -646,3 +716,15 @@ export const deleteUser = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error while deleting user" });
   }
 };
+
+/* ***** User Events ***** */
+userEmitter.on(
+  "sendForgetPasswordMail",
+  async ({ email, token }: { email: string; token: string }) => {
+    try {
+      await forgetPasswordMail({ email, token });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);

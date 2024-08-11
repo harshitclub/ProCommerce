@@ -10,9 +10,11 @@ import {
   getWishlistItems,
   removeFromCart,
   removeFromWishlist,
+  sendForgetPasswordEmail,
   unBlockUser,
   updateUser,
   userChangePassword,
+  userForgetPassword,
   userLogin,
   userProfile,
   userRegister,
@@ -35,8 +37,8 @@ userRouter.get("/my-wishlist", isLogin, getWishlistItems); // get wishlist items
 /* PATCH Request (User Only)*/
 userRouter.patch("/update", isLogin, updateUser); // update profile
 userRouter.patch("/change-password", isLogin, userChangePassword); // change password
-userRouter.patch("/send-forget-password-token"); // send forget password token to email
-userRouter.patch("/forget-password/:token"); // reset password
+userRouter.patch("/send-forget-password-token", sendForgetPasswordEmail); // send forget password token to email
+userRouter.patch("/forget-password/:token", userForgetPassword); // reset password
 
 /* DELETE Request (User Only)*/
 userRouter.delete("/remove-from-cart/:cartItemId", isLogin, removeFromCart); // remove product from cart

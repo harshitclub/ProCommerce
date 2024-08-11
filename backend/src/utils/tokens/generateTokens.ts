@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 
 interface User {
-  userId: string;
-  userEmail: string;
-  isVerified: boolean;
-  role: string;
-  status: string;
+  userId?: string;
+  userEmail?: string;
+  isVerified?: boolean;
+  role?: string;
+  status?: string;
 }
 
 export const generateAccessToken = async ({
@@ -34,6 +34,31 @@ export const generateAccessToken = async ({
     return accessToken;
   } catch (error) {
     console.error("Error generating access token:", error);
+    throw error; // Re-throw the error for proper handling
+  }
+};
+
+export const generateForgetPassToken = async ({
+  userId,
+  userEmail,
+  isVerified,
+  role,
+  status,
+}: User) => {
+  try {
+    const FORGET_PASS_SECRET = process.env.FORGET_PASS_SECRET;
+    if (!FORGET_PASS_SECRET) {
+      throw new Error("Missing environment variable: FORGET_PASS_SECRET");
+    }
+    const payload = {
+      userEmail: userEmail,
+    };
+    const forgetPassToken = await jwt.sign(payload, FORGET_PASS_SECRET, {
+      expiresIn: "15min",
+    });
+    return forgetPassToken;
+  } catch (error) {
+    console.error("Error generating forget password token: ", error);
     throw error; // Re-throw the error for proper handling
   }
 };
