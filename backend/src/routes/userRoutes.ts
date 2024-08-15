@@ -7,6 +7,8 @@ import {
   getAllUsers,
   getCartItems,
   getUser,
+  getUserCartItems,
+  getUserWishlistItems,
   getWishlistItems,
   removeFromCart,
   removeFromWishlist,
@@ -54,5 +56,7 @@ userRouter.get("/user/:id", isLogin, isAdmin, getUser); // get user
 userRouter.patch("/block/:id", isLogin, isAdmin, blockUser); // block user
 userRouter.patch("/unblock/:id", isLogin, isAdmin, unBlockUser); // unblock user
 userRouter.delete("/user/:id", isLogin, isAdmin, deleteUser); // delete user
+userRouter.get("/user/cart/:id", isLogin, isAdmin, getUserCartItems); // get user cart items
+userRouter.get("/user/wishlist/:id", isLogin, isAdmin, getUserWishlistItems); // get user wishlist items
 
 export default userRouter;

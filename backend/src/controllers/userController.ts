@@ -717,6 +717,105 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+/* 
+Get User Cart Items
+(Admin Only)
+*/
+
+export const getUserCartItems = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+
+    const cartItems = await prisma.user.findUnique({
+      where: { id: id },
+      select: {
+        firstName: true,
+        lastName: true,
+        email: true,
+        cart: {
+          select: {
+            product: {
+              select: {
+                title: true,
+                sku: true,
+                slug: true,
+                id: true,
+                newPrice: true,
+                status: true,
+                vendorId: true,
+                brandId: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      data: cartItems,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error while fetching user cart" });
+  }
+};
+
+/* 
+Get User Wishlist Items
+(Admin Only)
+*/
+
+export const getUserWishlistItems = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    if (!id) {
+      return res.status(400).json({
+        message: "Missing required parameter: id",
+      });
+    }
+    const wishlistItems = await prisma.user.findUnique({
+      where: { id: id },
+      select: {
+        firstName: true,
+        lastName: true,
+        email: true,
+        wishList: {
+          select: {
+            product: {
+              select: {
+                title: true,
+                sku: true,
+                slug: true,
+                id: true,
+                newPrice: true,
+                status: true,
+                vendorId: true,
+                brandId: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      data: wishlistItems,
+    });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res
+      .status(500)
+      .json({ message: "Error while fetching user wishlist" });
+  }
+};
+
 /* ***** User Events ***** */
 userEmitter.on(
   "sendForgetPasswordMail",
