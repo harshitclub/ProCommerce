@@ -24,13 +24,13 @@ export default function Login() {
             <form>
               <div className="lInput flex alignCenter justifyStart">
                 <label>
-                  <BiSolidUser />
+                  <BiSolidUser style={{ color: "var(--mainBg3)" }} />
                 </label>
                 <input placeholder="Enter your email" type="email" />
               </div>
               <div className="lInput flex alignCenter justifyStart">
                 <label>
-                  <BiSolidLockAlt />
+                  <BiSolidLockAlt style={{ color: "var(--mainBg3)" }} />
                 </label>
                 <input
                   placeholder="Enter your password"
@@ -39,12 +39,12 @@ export default function Login() {
                 {showPass ? (
                   <RiEyeFill
                     onClick={showPassword}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", color: "var(--mainBg3)" }}
                   />
                 ) : (
                   <RiEyeOffFill
                     onClick={showPassword}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer", color: "var(--mainBg3)" }}
                   />
                 )}
               </div>

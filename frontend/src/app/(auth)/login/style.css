@@ -13,6 +13,8 @@
   font-size: 1.3rem;
   text-align: center;
   margin: 0 0 1rem 0;
+  font-weight: 500;
+  color: var(--color3);
 }
 
 .login > .loginContainer > .loginForm > form > .lInput {
@@ -41,4 +43,8 @@
 .login > .loginContainer > .loginForm > form > button:hover {
   background-color: var(--mainBg4);
   transition: 0.2s all ease-in-out;
+}
+
+.login > .loginContainer > .loginForm > form > p {
+  color: var(--color1);
 }
