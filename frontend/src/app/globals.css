@@ -29,6 +29,19 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    /* colors */
+    --mainBg: #020617;
+    --mainBg2: #0f172a;
+    --mainBg3: #1e293b;
+    --mainBg4: #334155;
+    --light: #f8fafc;
+    --light2: #f1f5f9;
+    --light3: #e2e8f0;
+    --light4: #cbd5e1;
+    --color1: #94a3b8;
+    --color2: #64748b;
+    --color3: #475569;
   }
 
   .dark {
