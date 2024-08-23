@@ -2,5 +2,16 @@
   background-color: #fff;
   padding: 1rem;
   border-radius: 0.3rem;
-  margin: 1rem 0 0 0;
+  margin: 1rem 0 1rem 0;
+}
+
+.productInfo > .productInfoContainer > .productImages > .mainImage > img {
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.productInfo > .productInfoContainer > .productImages > .otherPImages > img {
+  width: 20%;
+  border-radius: 0.3rem;
+  cursor: pointer;
 }

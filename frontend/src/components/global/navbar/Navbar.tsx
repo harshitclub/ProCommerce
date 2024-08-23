@@ -1,5 +1,6 @@
 import "./style.css";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 import {
   AiOutlineHeart,
   AiOutlineShoppingCart,
@@ -11,7 +12,9 @@ export default function Navbar() {
     <nav className="width100 flex alignCenter justifyCenter">
       <div className="navbar flex spaceBtw alignCenter gap2 width95 maxWidth">
         <div className="logo">
-          <h1>ProCommerce</h1>
+          <h1>
+            <Link href="/">ProCommerce</Link>
+          </h1>
         </div>
         <div className="navSearch">
           <Input
@@ -22,14 +25,14 @@ export default function Navbar() {
         <div className="menu">
           <ul className="flex gap2">
             <li>
-              <a href="/">
+              <Link href="/login">
                 <AiOutlineUser style={{ display: "inline-block" }} /> Login
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/">
+              <Link href="/signup">
                 <HiArrowUpRight style={{ display: "inline-block" }} /> Signup
-              </a>
+              </Link>
             </li>
             <li>
               <a href="/">

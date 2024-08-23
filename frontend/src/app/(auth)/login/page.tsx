@@ -17,7 +17,7 @@ export default function Login() {
   };
   return (
     <>
-      <section className="login width100 flex alignCenter justifyCenter">
+      <section className="login width100 flex alignCenter justifyCenter ">
         <div className="loginContainer width95 maxWidth flex alignCenter justifyCenter">
           <div className="loginForm">
             <h1>Login to ProCommerce</h1>
@@ -72,7 +72,6 @@ export default function Login() {
           </div>
         </div>
       </section>
-      ;
     </>
   );
 }
