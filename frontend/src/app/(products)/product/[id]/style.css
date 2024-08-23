@@ -22,7 +22,7 @@
   > .productDContent
   > .breadCrumbs {
   color: var(--color2);
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem 0;
 }
 
 .productInfo
@@ -167,7 +167,6 @@
   > .productDetails
   > .productDContent
   > .productSku {
-  margin: 0 0 0.5rem 0;
   color: var(--color3);
 }
 
@@ -186,7 +185,6 @@
   > .productDContent
   > .productCat {
   color: var(--color3);
-  margin: 0 0 0.5rem 0;
 }
 
 .productInfo
@@ -204,7 +202,6 @@
   > .productDContent
   > .productBrand {
   color: var(--color3);
-  margin: 0 0 0.5rem 0;
 }
 
 .productInfo
@@ -222,7 +219,6 @@
   > .productDContent
   > .productVendor {
   color: var(--color3);
-  margin: 0 0 0.5rem 0;
 }
 
 .productInfo
