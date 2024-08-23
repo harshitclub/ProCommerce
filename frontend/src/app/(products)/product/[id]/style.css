@@ -15,3 +15,103 @@
   border-radius: 0.3rem;
   cursor: pointer;
 }
+
+.productInfo > .productInfoContainer > .productDetails > .productDContent > h1 {
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productDesc {
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productPrice {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: var(--mainBg4);
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productPrice
+  > span {
+  color: var(--color2);
+  font-size: 1.3rem;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productSku {
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productSku
+  > span {
+  font-weight: 600;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .addCartWish
+  > .pAddToCart {
+  background-color: var(--mainBg4);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 0.3rem;
+  width: 12rem;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .addCartWish
+  > .pAddToCart:hover {
+  background-color: var(--mainBg3);
+  transition: 0.2s all ease-in-out;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .addCartWish
+  > .pAddToWishlist {
+  background-color: var(--red);
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  color: #fff;
+  width: 12rem;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .addCartWish
+  > .pAddToWishlist:hover {
+  background-color: var(--red2);
+  transition: 0.2s all ease-in-out;
+}
