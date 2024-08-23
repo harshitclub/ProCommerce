@@ -16,9 +16,39 @@
   cursor: pointer;
 }
 
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .breadCrumbs {
+  color: var(--color2);
+  margin: 0 0 1rem 0;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .breadCrumbs
+  > a {
+  color: var(--color1);
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .breadCrumbs
+  > a:hover {
+  color: var(--color2);
+  transition: 0.2s all ease-in-out;
+}
+
 .productInfo > .productInfoContainer > .productDetails > .productDContent > h1 {
-  font-size: 2rem;
-  margin: 0 0 0.5rem 0;
+  font-size: 1.6rem;
+  margin: 0 0 1rem 0;
+  font-size: 700;
+  color: var(--mainBg3);
 }
 
 .productInfo
@@ -28,6 +58,7 @@
   > .productDesc {
   font-size: 1.1rem;
   margin: 0 0 1rem 0;
+  color: var(--mainBg4);
 }
 
 .productInfo
@@ -36,7 +67,7 @@
   > .productDContent
   > .productPrice {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 500;
   margin: 0 0 1rem 0;
   color: var(--mainBg4);
 }
@@ -55,18 +86,32 @@
   > .productInfoContainer
   > .productDetails
   > .productDContent
-  > .productSku {
-  font-size: 1.1rem;
-  margin: 0 0 1rem 0;
+  > .addCartWish {
+  border-bottom: 1px solid var(--light4);
+  padding: 0 0 1rem 0;
 }
 
 .productInfo
   > .productInfoContainer
   > .productDetails
   > .productDContent
-  > .productSku
-  > span {
-  font-weight: 600;
+  > .addCartWish
+  > .pQuant {
+  gap: 0.3rem;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .addCartWish
+  > .pQuant
+  > input {
+  border: 1px solid var(--color2);
+  background-color: var(--light4);
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  outline: none;
 }
 
 .productInfo
@@ -76,6 +121,7 @@
   > .addCartWish
   > .pAddToCart {
   background-color: var(--mainBg4);
+  border: 1px solid var(--mainBg4);
   padding: 0.5rem 1rem;
   cursor: pointer;
   color: #fff;
@@ -100,6 +146,7 @@
   > .addCartWish
   > .pAddToWishlist {
   background-color: var(--red);
+  border: 1px solid var(--red);
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
   color: #fff;
@@ -114,4 +161,76 @@
   > .pAddToWishlist:hover {
   background-color: var(--red2);
   transition: 0.2s all ease-in-out;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productSku {
+  margin: 0 0 0.5rem 0;
+  color: var(--color3);
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productSku
+  > span {
+  font-weight: 600;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productCat {
+  color: var(--color3);
+  margin: 0 0 0.5rem 0;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productCat
+  > span {
+  font-weight: 600;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productBrand {
+  color: var(--color3);
+  margin: 0 0 0.5rem 0;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productBrand
+  > span {
+  font-weight: 600;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productVendor {
+  color: var(--color3);
+  margin: 0 0 0.5rem 0;
+}
+
+.productInfo
+  > .productInfoContainer
+  > .productDetails
+  > .productDContent
+  > .productVendor
+  > span {
+  font-weight: 600;
 }

@@ -2,12 +2,15 @@ import Image from "next/image";
 import "./style.css";
 import product from "@/assets/demo.jpg";
 import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
+import Link from "next/link";
+import { useState } from "react";
+import { PiMinus, PiPlus } from "react-icons/pi";
 export default function Product() {
   return (
     <>
       <section className="productInfo width100 flex alignCenter justifyCenter">
         <div className="productInfoContainer width95 maxWidth flex alignStart justifyCenter gap1">
-          <div className="productImages width50">
+          <div className="productImages width45">
             <div className="mainImage marginBottom1">
               <Image src={product} alt="product" />
             </div>
@@ -18,8 +21,14 @@ export default function Product() {
               <Image src={product} alt="" />
             </div>
           </div>
-          <div className="productDetails width50 ">
+          <div className="productDetails width55 ">
             <div className="productDContent">
+              <p className="breadCrumbs">
+                <Link href="/">home</Link> /{" "}
+                <Link href="/products">products</Link> /{" "}
+                <Link href="/categories">home</Link> /{" "}
+                <Link href="/slug">Adorn India Wood</Link>
+              </p>
               <h1>
                 Adorn India Wood Maddox Tufted L Shape 5- to 6-Person Sofa Sofa
                 Set (Left Hand Side) Grey{" "}
@@ -37,10 +46,11 @@ export default function Product() {
                   <s>$1299</s>
                 </span>
               </p>
-              <p className="productSku">
-                <span>SKU: </span>SOFA99GHJ
-              </p>
-              <div className="addCartWish flex alignCenter justifyStart gap1">
+
+              <div className="addCartWish marginBottom1 flex alignCenter justifyStart gap1">
+                <div className="pQuant flex alignCenter justifyCenter">
+                  <input type="number" min={1} max={100} defaultValue={1} />
+                </div>
                 <button className="pAddToCart">
                   <AiOutlineShoppingCart
                     style={{
@@ -60,6 +70,21 @@ export default function Product() {
                   Add To Wishlist
                 </button>
               </div>
+              <p className="productSku">
+                <span>SKU: </span>SOFA99GHJ
+              </p>
+              <p className="productCat">
+                <span>Category: </span>
+                Home
+              </p>
+              <p className="productBrand">
+                <span>Brand: </span>
+                Random Brand
+              </p>
+              <p className="productVendor">
+                <span>Vendor: </span>
+                Random Vendor
+              </p>
             </div>
           </div>
         </div>
