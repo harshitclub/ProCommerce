@@ -46,7 +46,7 @@
 
 .productInfo > .productInfoContainer > .productDetails > .productDContent > h1 {
   font-size: 1.6rem;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem 0;
   font-size: 700;
   color: var(--mainBg3);
 }
@@ -56,8 +56,7 @@
   > .productDetails
   > .productDContent
   > .productDesc {
-  font-size: 1.1rem;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem 0;
   color: var(--mainBg4);
 }
 
@@ -68,7 +67,7 @@
   > .productPrice {
   font-size: 2rem;
   font-weight: 500;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem 0;
   color: var(--mainBg4);
 }
 
