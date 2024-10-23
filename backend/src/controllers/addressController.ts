@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { addressValidator } from "../validator/addressValidator";
+import {
+  addressValidator,
+  updateAddressValidator,
+} from "../validator/addressValidator";
 const prisma = new PrismaClient();
 
 export const addingAddress = async (req: Request, res: Response) => {
@@ -89,6 +92,42 @@ export const setDefaultAddress = async (req: Request, res: Response) => {
     // @ts-ignore
     console.error(error.message); // Log the error for debugging
     return res.status(500).json({ message: "Error Making Default Address" });
+  }
+};
+
+export const updateAddress = async (req: Request, res: Response) => {
+  const user = req.decodedToken;
+  const { id } = req.params;
+  try {
+    const addressData = await updateAddressValidator.parseAsync(req.body);
+    // Find the address to be set as default
+    const addressToUpdate = await prisma.address.findUnique({
+      where: {
+        id: id,
+        userId: user.userId,
+      },
+    });
+
+    if (!addressToUpdate) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    const updateAddress = await prisma.address.update({
+      where: {
+        id: id,
+        userId: user.userId,
+      },
+      data: {
+        ...addressData,
+      },
+    });
+    return res
+      .status(200)
+      .json({ message: "Address Updated", data: { updateAddress } });
+  } catch (error) {
+    // @ts-ignore
+    console.error(error.message); // Log the error for debugging
+    return res.status(500).json({ message: "Error While Updating Address" });
   }
 };
 

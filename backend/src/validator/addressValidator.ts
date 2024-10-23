@@ -12,3 +12,16 @@ export const addressValidator = z.object({
   country: z.string(),
   note: z.string().optional(),
 });
+
+export const updateAddressValidator = z.object({
+  addressType: z.enum(["businessAddress", "homeAddress"]).optional(),
+  fullName: z.string().optional(),
+  companyName: z.string().optional(),
+  addressLine1: z.string().optional(),
+  addressLine2: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
+  note: z.string().optional(),
+});
