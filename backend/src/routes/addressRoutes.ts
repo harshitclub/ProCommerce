@@ -6,6 +6,7 @@ import {
   getAddresses,
   getMyAddresses,
   getUserAddresses,
+  setDefaultAddress,
 } from "../controllers/addressController";
 
 const addressRouter = express();
@@ -18,7 +19,7 @@ addressRouter.get("/my-addresses", isLogin, getMyAddresses); // retrieving addre
 
 /* PATCH Request (Only User)*/
 addressRouter.patch("/update-address/:id", isLogin); // updating address
-addressRouter.patch("/default", isLogin); // mark address as default
+addressRouter.patch("/default/:id", isLogin, setDefaultAddress); // mark address as default
 
 /* DELETE Request (Only User)*/
 addressRouter.delete("/delete-address/:id", isLogin, deleteMyAddress); // delete address
