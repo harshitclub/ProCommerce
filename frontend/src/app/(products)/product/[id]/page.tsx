@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import "./style.css";
 import product from "@/assets/demo.jpg";
@@ -5,6 +6,7 @@ import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import Link from "next/link";
 import { useState } from "react";
 import { PiMinus, PiPlus } from "react-icons/pi";
+import ProductCard from "@/components/local/product/productCard/ProductCard";
 export default function Product() {
   return (
     <>
@@ -86,6 +88,17 @@ export default function Product() {
                 Random Vendor
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+      <section className="recommededProducts width100 flex alignCenter justifyCenter">
+        <div className="rPContainer width95 maxWidth">
+          <h2 className="marginBottom1">Related Products</h2>
+          <div className="rPCChild flex gap1">
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
+            <ProductCard />
           </div>
         </div>
       </section>

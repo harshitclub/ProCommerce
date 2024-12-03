@@ -181,25 +181,27 @@ model Product {
 }
 
 model Brand {
-  id               String   @id @default(uuid())
-  brandName        String
-  email            String   @unique
-  phone            String   @unique
-  password         String
-  logo             String?
-  country          String
-  missionStatement String?
-  slogan           String
-  role             Role     @default(brand)
-  niche            Niche
-  slug             String   @unique
-  description      String
-  isVerified       Boolean  @default(false)
-  status           Status   @default(active)
-  metaDescription  String?
-  keywords         String?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  brandName           String
+  email               String   @unique
+  phone               String   @unique
+  password            String
+  logo                String?
+  country             String
+  missionStatement    String?
+  slogan              String
+  role                Role     @default(brand)
+  niche               Niche
+  slug                String   @unique
+  description         String
+  isVerified          Boolean  @default(false)
+  status              Status   @default(active)
+  metaDescription     String?
+  keywords            String?
+  verificationToken   String?
+  forgetPasswordToken String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
   // relationships
   products      Product[]

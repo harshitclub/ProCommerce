@@ -15,6 +15,8 @@ import {
   vendorLogin,
   vendorProfile,
   vendorRegister,
+  vForgetPassword,
+  vSendForgetPasswordEmail,
 } from "../controllers/vendorController";
 import { isAdmin, isLogin, isVendor } from "../middlewares/auth";
 
@@ -38,6 +40,8 @@ vendorRouter.get("/product/:productId", isLogin, isVendor, getProduct); // getti
 /* PATCH Request (Vendor Only)*/
 vendorRouter.patch("/update", isLogin, isVendor, updateVendor); // update vendor profile
 vendorRouter.patch("/change-password", isLogin, isVendor, vChangePassword); // change password
+vendorRouter.patch("/send-forget-password-token", vSendForgetPasswordEmail); // send forget password token to email
+vendorRouter.patch("/forget-password/:token", vForgetPassword);
 vendorRouter.patch(
   "/product/:productId",
   isLogin,

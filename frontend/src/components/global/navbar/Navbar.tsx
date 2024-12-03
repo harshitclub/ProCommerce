@@ -35,13 +35,13 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <a href="/">
+              <a href="/cart">
                 <AiOutlineShoppingCart style={{ display: "inline-block" }} />{" "}
                 Cart
               </a>
             </li>
             <li>
-              <a href="/">
+              <a href="/wishlist">
                 <AiOutlineHeart style={{ display: "inline-block" }} /> Wishlist
               </a>
             </li>

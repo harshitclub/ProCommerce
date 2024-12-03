@@ -1,0 +1,56 @@
+.productCard {
+  /* border: 1px solid #cbd5e1; */
+  width: calc(100% / 4);
+  border-radius: 0.3rem;
+  height: auto;
+}
+
+.productCard > .pCImage {
+  width: 100%;
+  height: 18rem;
+  background-color: #f1f5f9;
+  border-radius: 0.3rem;
+}
+
+.productCard > .pCImage > img {
+  width: 100%;
+  height: 100%;
+}
+
+.productCard > .pCWishlist > .pCWishlistIcon {
+  margin-bottom: -1.5rem;
+  margin-right: 0.3rem;
+  cursor: pointer;
+  color: #dc2626;
+}
+
+.productCard > h3 {
+  font-weight: 500;
+  margin: 1rem 0 0 0;
+}
+
+.productCard > .pCButtons {
+  margin: 1rem 0 0 0;
+}
+
+.productCard > .pCButtons > .pCButton {
+  width: 50%;
+  border-radius: 0.3rem;
+  background-color: #475569;
+  padding: 0.5rem;
+  color: #fff;
+}
+
+.productCard > .pCButtons > .pCButtonCart {
+  background-color: #e2e8f0;
+  color: #64748b;
+}
+
+.productCard > .pCButtons > .pCButtonCart:hover {
+  background-color: #cbd5e1 !important;
+}
+
+.productCard > .pCButtons > .pCButton:hover {
+  background-color: #334155;
+  transition: 0.3s all ease-in-out;
+}

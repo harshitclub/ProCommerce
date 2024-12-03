@@ -3,9 +3,11 @@ import {
   bAddProduct,
   bChangePassword,
   blockBrand,
+  brandForgetPassword,
   brandLogin,
   brandProfile,
   brandRegister,
+  bSendForgetPasswordEmail,
   deleteBrand,
   deleteBrandProduct,
   getAllBrands,
@@ -38,8 +40,8 @@ brandRouter.get("/product/:id", isLogin, isBrand, getBrandProduct); // get brand
 /* PATCH Request (Brand Only)*/
 brandRouter.patch("/update", isLogin, isLogin, updateBrand); // update brand profile
 brandRouter.patch("/change-password", isLogin, isBrand, bChangePassword); // change brand password
-brandRouter.patch("/send-forget-password-token"); // send forget password token to email
-brandRouter.patch("/forget-password/:token"); // reset password
+brandRouter.patch("/send-forget-password-token", bSendForgetPasswordEmail); // send forget password token to email
+brandRouter.patch("/forget-password/:token", brandForgetPassword); // reset password
 brandRouter.patch("/product/:productId", isLogin, isBrand, updateBrandProduct); // update brand's product
 
 /* DELETE Request (Brand Only)*/
