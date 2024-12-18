@@ -7,23 +7,44 @@ footer > .footerContainer {
 }
 
 footer > .footerContainer > .fMenu {
-  color: #fff;
   width: calc(100% / 6);
 }
 
 footer > .footerContainer > .fMenu > h3 {
   font-size: 1.2rem;
-  border-bottom: 1px solid #475569;
+  border-bottom: 1px solid var(--secBorder);
   padding: 0 0 0.5rem 0;
   margin: 0 0 0.5rem 0;
+  color: var(--light4);
+  font-weight: 500;
+}
+
+footer > .footerContainer > .fMenu > ul {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+footer > .footerContainer > .fMenu > ul > li > a {
+  color: var(--light4);
 }
 
 footer > .footerContainer {
-  border-bottom: 1px solid #475569;
+  border-bottom: 1px solid var(--secBorder);
   margin: 0 0 1rem 0;
 }
 
+footer > .footerContainer > .fMenu > h2 {
+  color: var(--light4);
+}
+
 footer > .fCopyright {
-  color: white;
+  color: var(--light4);
   margin: 0 0 1rem 0;
+}
+
+footer > .fCopyright > a {
+  color: var(--light4);
 }

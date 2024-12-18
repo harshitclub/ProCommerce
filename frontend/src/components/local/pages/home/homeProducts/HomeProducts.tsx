@@ -4,9 +4,6 @@ import {
   HiOutlineHeart,
 } from "react-icons/hi2";
 import "./style.css";
-// import iPhone from "../../../../../assets/";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 export default function HomeProducts() {
   const electronics = [

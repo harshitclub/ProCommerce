@@ -3,10 +3,24 @@ nav {
   background-color: #fff;
 }
 
-nav > .navbar > .logo > h1 {
+nav > .navbar > .logo > h1 > a {
   font-weight: 700;
+  color: var(--mainText);
 }
 
 nav > .navbar > .navSearch {
   flex-grow: 1;
+}
+
+nav > .navbar > .navSearch > input {
+  width: 100%;
+  padding: 0.5rem;
+  border: none;
+  border: 1px solid var(--mainBorder);
+  outline: none;
+  border-radius: 0.2rem;
+}
+
+nav > .navbar > .menu > ul > li > a {
+  color: var(--mainText);
 }

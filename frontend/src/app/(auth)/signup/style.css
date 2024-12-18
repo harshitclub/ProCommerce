@@ -26,6 +26,7 @@
   border: 1px solid var(--light3);
   border-radius: 0.3rem;
   margin: 0 0 0.5rem 0;
+  font-size: 1rem;
 }
 
 .signup > .signupContainer > .signupForm > form > .lInput {
@@ -39,6 +40,8 @@
 .signup > .signupContainer > .signupForm > form > .lInput > input {
   outline: none;
   margin: 0 0 0 0.5rem;
+  font-size: 1rem;
+  border: none;
   /* flex-grow: 1; */
 }
 
@@ -49,6 +52,8 @@
   color: #fff;
   padding: 0.5rem;
   margin: 0 0 0.5rem 0;
+  border: none;
+  font-size: 1rem;
 }
 
 .signup > .signupContainer > .signupForm > form > button:hover {
@@ -57,5 +62,9 @@
 }
 
 .signup > .signupContainer > .signupForm > form > p {
+  color: var(--mainText2);
+}
+
+.signup > .signupContainer > .signupForm > form > p > a {
   color: var(--color1);
 }

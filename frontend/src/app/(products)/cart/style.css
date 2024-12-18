@@ -1,7 +1,7 @@
 .cartHeader > .cartHContainer {
-  /* background-color: var(--light4); */
+  /* background-color: var(--light3); */
   background-color: white;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
   border-radius: 0.2rem;
   padding: 1rem;
 }
@@ -9,5 +9,315 @@
 .cartHeader > .cartHContainer > h1 {
   font-size: 1.6rem;
   font-weight: 500;
+  color: var(--mainText);
+}
+
+.cart > .cartContainer {
+  padding: 0.5rem 1rem 0 1rem;
+  background-color: white;
+  border-radius: 0.2rem 0.2rem 0 0;
+  /* margin: 0 0 0.5rem 0; */
+}
+
+.cart > .cartContainer > .cartTable > table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cart > .cartContainer > .cartTable > table > thead {
+  text-align: left;
+  border-bottom: 1px solid var(--mainBorder);
+  color: var(--mainText);
+}
+
+.cart > .cartContainer > .cartTable > table > thead > tr > th {
+  padding: 0.5rem 0 1rem 0;
+}
+
+.cart > .cartContainer > .cartTable > table > tbody > tr > td {
+  margin: 1rem 0 1rem 0;
+}
+
+.cart > .cartContainer > .cartTable > table > tbody > tr > .cartTablePrice,
+.cartTableSubTotal {
+  text-decoration: underline;
+  font-weight: 600;
+  color: var(--mainText);
+}
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > .cartTableQuantity
+  > .ctqBox {
+  display: inline-block;
+  border-radius: 0.2rem;
+}
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > .cartTableQuantity
+  > .ctqBox
+  > button {
+  padding: 0.5rem 1rem;
+  background-color: var(--mainBg4);
+  border: 1px solid var(--mainBg4);
+  font-size: 1rem;
+  cursor: pointer;
+  color: #fff;
+  transition: 0.2s all ease-in-out;
+}
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > .cartTableQuantity
+  > .ctqBox
+  > button:hover {
+  background-color: var(--mainBg3);
+}
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > .cartTableQuantity
+  > .ctqBox
+  > input {
+  border: 1px solid var(--mainBorder);
+  display: inline;
+  width: 3rem;
+  font-size: 1rem;
+  outline: none;
+  padding: 0.5rem;
+}
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > .cartTableQuantity
+  > .ctqBox
+  > input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cart > .cartContainer > .cartTable > table > tbody > tr > .cartTableProduct {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > .cartTableProduct
+  > img {
+  border-radius: 0.2rem;
+}
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > .cartTableProduct
+  > h2
+  > a {
+  font-size: 1.2rem;
+  font-weight: 500;
   color: var(--mainBg3);
 }
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > td
+  > .cartItemRemoveIcon {
+  background-color: #fca5a5;
+  color: #dc2626;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  padding: 0.2rem;
+  transition: 0.2s all ease-in-out;
+  cursor: pointer;
+}
+
+.cart
+  > .cartContainer
+  > .cartTable
+  > table
+  > tbody
+  > tr
+  > td
+  > .cartItemRemoveIcon:hover {
+  background-color: #ef4444;
+  color: var(--light3);
+}
+
+.cartShipping > .cartShipContainer {
+  background-color: #fff;
+  padding: 1rem;
+}
+
+.cartShipping > .cartShipContainer > .cartShipCBoxSuccess {
+  padding: 1rem;
+  background-color: #dcfce7;
+  border: 1px solid #86efac;
+  border-radius: 0.2rem;
+  color: #166534;
+}
+
+.cartShipping > .cartShipContainer > .cartShipCBoxFailed {
+  padding: 1rem;
+  background-color: #ffedd5;
+  border: 1px solid #fdba74;
+  border-radius: 0.2rem;
+  color: #ea580c;
+}
+
+.cartSubtotal > .cartSubtotalContainer {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 0.2rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.cartSubtotal > .cartSubtotalContainer > .cartSubtotalBox {
+  display: inline-block;
+  padding: 1rem;
+  border: 1px solid var(--mainBorder);
+  width: 30%;
+  /* background-color: var(--light2); */
+  border-radius: 0.2rem;
+  color: var(--mainText);
+}
+
+.cartSubtotal > .cartSubtotalContainer > .cartSubtotalBox > .csbTab > h3 {
+  font-weight: 600;
+}
+
+.cartSubtotal > .cartSubtotalContainer > .cartSubtotalBox > .csbTab > p {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.cartSubtotal > .cartSubtotalContainer > .cartSubtotalBox > .csbCoupon {
+  margin: 1rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--mainBorder);
+  border-bottom: 1px solid var(--mainBorder);
+}
+
+.cartSubtotal > .cartSubtotalContainer > .cartSubtotalBox > .csbCoupon > h4 {
+  background-color: var(--light3);
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  text-align: center;
+
+  cursor: pointer;
+  transition: 0.2s all ease-in-out;
+}
+
+.cartSubtotal
+  > .cartSubtotalContainer
+  > .cartSubtotalBox
+  > .csbCoupon
+  > h4:hover {
+  background-color: var(--mainText);
+  color: var(--light3);
+}
+
+.cartSubtotal
+  > .cartSubtotalContainer
+  > .cartSubtotalBox
+  > .csbCoupon
+  > .csbCouponBox {
+  margin: 1rem 0 0 0;
+  display: none;
+}
+
+.cartSubtotal
+  > .cartSubtotalContainer
+  > .cartSubtotalBox
+  > .csbCoupon
+  > .csbCouponBox
+  input {
+  padding: 0.5rem;
+  width: 70%;
+  outline: none;
+  border: 1px solid var(--mainBorder);
+  border-radius: 0.2rem;
+  font-size: 1rem;
+}
+
+.cartSubtotal
+  > .cartSubtotalContainer
+  > .cartSubtotalBox
+  > .csbCoupon
+  > .csbCouponBox
+  > button {
+  width: 30%;
+  border: none;
+  padding: 0.5rem;
+  background-color: var(--mainText);
+  color: var(--light3);
+  border-radius: 0.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s all ease-in-out;
+}
+
+.cartSubtotal
+  > .cartSubtotalContainer
+  > .cartSubtotalBox
+  > .csbCoupon
+  > .csbCouponBox
+  > button:hover {
+  background-color: var(--mainBg3);
+}
+
+.cartSubtotal > .cartSubtotalContainer > .cartSubtotalBox > button {
+  background-color: var(--mainText);
+  color: var(--light3);
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  border: none;
+  font-size: 1rem;
+  width: 100%;
+  margin: 1rem 0 0 0;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s all ease-in-out;
+}
+
+.cartSubtotal > .cartSubtotalContainer > .cartSubtotalBox > button:hover {
+  background-color: var(--mainBg3);
+}
+
+/* https://via.placeholder.com/150 */

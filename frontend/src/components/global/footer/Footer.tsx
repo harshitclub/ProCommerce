@@ -137,7 +137,7 @@ export default function Footer() {
           </ul>
         </div>
         <div className="fMenu">
-          <h1>ProCommerce</h1>
+          <h2>ProCommerce</h2>
         </div>
       </div>
       <div className="fCopyright width95 maxWidth flex alignCenter spaceBtw">

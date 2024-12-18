@@ -1,5 +1,4 @@
 import "./style.css";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import {
   AiOutlineHeart,
@@ -17,7 +16,7 @@ export default function Navbar() {
           </h1>
         </div>
         <div className="navSearch">
-          <Input
+          <input
             type="text"
             placeholder="Search for Products, Brands and More"
           />

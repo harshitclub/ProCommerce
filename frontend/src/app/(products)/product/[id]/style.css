@@ -8,10 +8,13 @@
 .productInfo > .productInfoContainer > .productImages > .mainImage > img {
   border-radius: 0.3rem;
   cursor: pointer;
+  width: 100%;
+  height: auto;
 }
 
 .productInfo > .productInfoContainer > .productImages > .otherPImages > img {
   width: 20%;
+  height: auto;
   border-radius: 0.3rem;
   cursor: pointer;
 }
@@ -48,6 +51,7 @@
   font-size: 1.6rem;
   margin: 0 0 1.5rem 0;
   color: var(--mainBg3);
+  font-weight: 500;
 }
 
 .productInfo
@@ -110,6 +114,7 @@
   padding: 0.5rem;
   border-radius: 0.3rem;
   outline: none;
+  font-size: 1rem;
 }
 
 .productInfo
@@ -125,6 +130,7 @@
   color: #fff;
   border-radius: 0.3rem;
   width: 12rem;
+  font-size: 1rem;
 }
 
 .productInfo
@@ -149,6 +155,7 @@
   border-radius: 0.3rem;
   color: #fff;
   width: 12rem;
+  font-size: 1rem;
 }
 
 .productInfo
